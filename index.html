@@ -18,5 +18,62 @@
 <footer>© TAX ACCOUNTING ILJU</footer>
 </figure>
 </main>
+<script>
+// Preserve the approved raster artwork; animate only its three message lines.
+(() => {
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  const image = document.querySelector('.scene > .art');
+  if (!image || !HTMLCanvasElement.prototype.getContext) return;
+  image.style.visibility = 'hidden';
+  let veil;
+  let expired = false;
+  const fallback = setTimeout(() => {
+    expired = true;
+    image.style.visibility = '';
+    if (veil) veil.remove();
+  }, 3000);
+  image.decode().then(() => {
+    if (expired) return;
+    veil = document.createElement('canvas');
+    veil.className = 'art message-veil';
+    veil.setAttribute('aria-hidden', 'true');
+    veil.style.cssText = 'position:absolute;left:0;top:0;pointer-events:none';
+    veil.width = image.naturalWidth;
+    veil.height = image.naturalHeight;
+    const context = veil.getContext('2d');
+    context.drawImage(image, 0, 0);
+    const frame = context.getImageData(0, 0, veil.width, veil.height);
+    const pixels = frame.data;
+    // Only these message strips change. Logo, globe and copyright stay static.
+    const strips = [[125, 600, 518, 571], [125, 600, 575, 625], [125, 790, 648, 715]];
+    for (const [left, right, top, bottom] of strips) {
+      for (let x = left; x <= right; x++) {
+        const above = (top * veil.width + x) * 4;
+        const below = (bottom * veil.width + x) * 4;
+        for (let y = top + 1; y < bottom; y++) {
+          const fraction = (y - top) / (bottom - top);
+          const index = (y * veil.width + x) * 4;
+          for (let channel = 0; channel < 3; channel++) {
+            pixels[index + channel] = Math.round(pixels[above + channel] * (1 - fraction) + pixels[below + channel] * fraction);
+          }
+        }
+      }
+    }
+    context.putImageData(frame, 0, 0);
+    image.after(veil);
+    image.style.visibility = '';
+    clearTimeout(fallback);
+    const animation = veil.animate([{opacity: 1}, {opacity: 0}], {
+      duration: 1000, easing: 'ease-in-out', fill: 'forwards'
+    });
+    animation.finished.then(() => veil.remove()).catch(() => veil.remove());
+  }).catch(() => {
+    clearTimeout(fallback);
+    image.style.visibility = '';
+    if (veil) veil.remove();
+  });
+})();
+
+</script>
 </body>
 </html>

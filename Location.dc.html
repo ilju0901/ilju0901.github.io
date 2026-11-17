@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<title>오시는 길</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&amp;family=Inter:wght@500;600&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+a{color:inherit;text-decoration:none}
+a:hover{color:#B4552F}
+</style>
+</helmet>
+<div style="display: flex; flex-wrap: wrap; align-items: stretch; background: #FEF1E9; color: #2B2B2B; font-family: 'Noto Sans KR', sans-serif; letter-spacing: -0.01em">
+  <div style="flex: 1 1 264px; background: #2B2B2B">
+    <div style="position: sticky; top: 0; max-height: 100vh; overflow-y: auto"><dc-import name="Sidebar" active="location" hint-size="100%,900px"></dc-import></div>
+  </div>
+  <main style="flex: 999 1 560px; min-width: 0; display: flex; flex-direction: column">
+
+    <header style="position: relative; overflow: hidden; box-sizing: border-box; padding: 150px clamp(24px, 8.5%, 100px) 96px; background: #FEF1E9; display: flex; flex-direction: column; gap: 20px">
+      <svg aria-hidden="true" viewBox="0 0 300 300" style="position: absolute; right: -120px; top: 40px; width: 440px; height: 440px" fill="none">
+        <path d="M167.40 4.03 A147 147 0 0 1 167.40 295.97" stroke="#D97757" stroke-width="1.4" vector-effect="non-scaling-stroke"></path>
+        <path d="M132.60 295.97 A147 147 0 0 1 132.60 4.03" stroke="#D97757" stroke-width="1.4" vector-effect="non-scaling-stroke"></path>
+        <path d="M27.20 132.74 A124 124 0 0 1 267.93 111.68" stroke="#2B2B2B" stroke-opacity="0.2" stroke-width="1" vector-effect="non-scaling-stroke"></path>
+        <path d="M265.77 194.44 A124 124 0 0 1 27.20 167.26" stroke="#2B2B2B" stroke-opacity="0.2" stroke-width="1" vector-effect="non-scaling-stroke"></path>
+      </svg>
+      <nav aria-label="현재 위치" style="position: relative; font-size: 14px; color: #7E6054"><a href="Main.dc.html">홈</a>   /   오시는 길</nav>
+      <p style="position: relative; margin: 20px 0 0; font-family: 'Inter', sans-serif; font-weight: 600; font-size: 13px; letter-spacing: 0.16em; color: #B4552F">LOCATION</p>
+      <h1 style="position: relative; margin: 0; font-family: 'Noto Sans KR', sans-serif; font-weight: 700; font-size: clamp(38px, 4.6vw, 66px); line-height: 1.35; letter-spacing: -0.02em">오시는 길</h1>
+      <p style="position: relative; margin: 0; font-size: 19px; line-height: 1.7; color: #6B5149">광주 첨단과학산업단지, 첨단IBC 지식산업센터 B동 6층에 있습니다.</p>
+    </header>
+
+    <section aria-label="위치와 연락처" style="box-sizing: border-box; padding: 100px clamp(24px, 8.5%, 100px) 170px; background: #FFFFFF; display: flex; flex-direction: column; gap: 56px">
+      <div role="img" aria-label="지도 자리: 세무회계 일주, 첨단IBC 지식산업센터 B동 619호" style="position: relative; overflow: hidden; height: 460px; background: #F7E6DC">
+        <div style="position: absolute; left: 0; right: 0; top: 300px; height: 22px; background: #FFFFFF"></div>
+        <div style="position: absolute; left: 0; right: 0; top: 120px; height: 10px; background: #FFFFFF; opacity: 0.8"></div>
+        <div style="position: absolute; top: 0; bottom: 0; left: 57%; width: 26px; background: #FFFFFF"></div>
+        <div style="position: absolute; top: 0; bottom: 0; left: 18%; width: 12px; background: #FFFFFF; opacity: 0.8"></div>
+        <div style="position: absolute; top: 0; bottom: 0; left: 80%; width: 12px; background: #FFFFFF; opacity: 0.8"></div>
+        <div style="position: absolute; left: 62%; top: 160px; width: 150px; height: 110px; border-radius: 6px; background: #DCE2D3"></div>
+        <div style="position: absolute; left: 43%; top: 200px; width: 84px; height: 58px; border-radius: 4px; background: rgba(217,119,87,0.18); border: 1px solid rgba(217,119,87,0.6)"></div>
+        <svg aria-hidden="true" width="36" height="46" viewBox="0 0 36 46" fill="none" style="position: absolute; left: calc(43% + 24px); top: 160px"><path d="M18 45C18 45 34 28.5 34 17.5C34 8.4 26.8 1.5 18 1.5C9.2 1.5 2 8.4 2 17.5C2 28.5 18 45 18 45Z" fill="#D97757"></path><circle cx="18" cy="17" r="6.5" fill="#FFFFFF"></circle></svg>
+        <div style="position: absolute; left: calc(43% + 70px); top: 108px; display: flex; flex-direction: column; gap: 2px; padding: 14px 18px; background: #FFFFFF; border-radius: 2px; box-shadow: 0 6px 18px rgba(0,0,0,0.12)">
+          <strong style="font-size: 16px">세무회계 일주</strong>
+          <span style="font-size: 13px; color: #7E6054">첨단IBC 지식산업센터 B동 619호</span>
+        </div>
+        <p style="position: absolute; left: 24px; bottom: 16px; margin: 0; font-size: 13px; color: #7E6054">지도 자리 · 실제 홈페이지에서는 네이버 지도로 바뀝니다</p>
+      </div>
+
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 40px">
+        <div style="display: flex; flex-direction: column; gap: 14px; padding-top: 32px; border-top: 1px solid #2B2B2B">
+          <p style="margin: 0; font-family: 'Inter', sans-serif; font-weight: 600; font-size: 13px; letter-spacing: 0.16em; color: #B4552F">ADDRESS</p>
+          <p style="margin: 0; font-size: 19px; line-height: 1.7">전남광주통합특별시 북구<br>첨단과기로208번길 43-10<br>첨단IBC 지식산업센터 B동 619호</p>
+          <button type="button" style="align-self: flex-start; min-height: 44px; padding: 0; background: none; border: 0; font-family: 'Noto Sans KR', sans-serif; font-size: 14px; color: #7E6054; text-decoration: underline; cursor: pointer">주소 복사</button>
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 14px; padding-top: 32px; border-top: 1px solid #2B2B2B">
+          <p style="margin: 0; font-family: 'Inter', sans-serif; font-weight: 600; font-size: 13px; letter-spacing: 0.16em; color: #B4552F">CONTACT</p>
+          <p style="margin: 0; font-size: 19px; line-height: 1.7">TEL   <a href="tel:07043480111">070-4348-0111</a><br>FAX   0507-1795-5224<br>EMAIL   <a href="mailto:info@ilju.kr">info@ilju.kr</a></p>
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 14px; padding-top: 32px; border-top: 1px solid #2B2B2B">
+          <p style="margin: 0; font-family: 'Inter', sans-serif; font-weight: 600; font-size: 13px; letter-spacing: 0.16em; color: #B4552F">HOURS</p>
+          <p style="margin: 0; font-size: 19px; line-height: 1.7">평일 09:00 – 18:00<br>토 · 일 · 공휴일 휴무</p>
+          <p style="margin: 0; font-size: 14px; line-height: 1.7; color: #7E6054">방문 상담은 미리 예약해 주시면 기다리지 않고 바로 상담받으실 수 있습니다.</p>
+        </div>
+      </div>
+
+      <div style="display: flex; flex-wrap: wrap; gap: 12px">
+        <a href="https://map.naver.com/p/entry/place/2058841701" style="display: inline-flex; align-items: center; gap: 12px; min-height: 56px; padding: 0 28px; border: 1px solid #2B2B2B; font-weight: 700; font-size: 16px; border-radius: 2px">네이버 지도에서 보기 <span aria-hidden="true">→</span></a>
+        <a href="https://map.kakao.com/?q=%EC%84%B8%EB%AC%B4%ED%9A%8C%EA%B3%84%20%EC%9D%BC%EC%A3%BC" style="display: inline-flex; align-items: center; gap: 12px; min-height: 56px; padding: 0 28px; border: 1px solid #2B2B2B; font-weight: 700; font-size: 16px; border-radius: 2px">카카오맵에서 보기 <span aria-hidden="true">→</span></a>
+      </div>
+    </section>
+
+    <dc-import name="Footer" hint-size="100%,280px"></dc-import>
+  </main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":1900}}'>
+class Component extends DCLogic {
+  renderVals() {
+    return {};
+  }
+}
+</script>
+</body>
+</html>

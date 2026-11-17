@@ -1,0 +1,241 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<title>업무 분야 상세 공통 틀</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&amp;family=Inter:wght@500;600&amp;display=swap" rel="stylesheet">
+<style>body{margin:0}</style>
+</helmet>
+<div style="display: flex; flex-wrap: wrap; align-items: stretch; background: #FEF1E9; color: #2B2B2B; font-family: 'Noto Sans KR', sans-serif; letter-spacing: -0.01em">
+  <div style="flex: 1 1 264px; background: #2B2B2B">
+    <div style="position: sticky; top: 0; max-height: 100vh; overflow-y: auto"><dc-import name="Sidebar" active="service" sub="{{s.index}}" hint-size="100%,900px"></dc-import></div>
+  </div>
+  <main style="flex: 999 1 560px; min-width: 0; display: flex; flex-direction: column">
+
+    <header style="position: relative; overflow: hidden; box-sizing: border-box; padding: 150px clamp(24px, 8.5%, 100px) 72px; background: #FEF1E9; display: flex; flex-direction: column; gap: 20px">
+      <svg aria-hidden="true" viewBox="0 0 300 300" style="position: absolute; right: -120px; top: 40px; width: 440px; height: 440px" fill="none">
+        <path d="M167.40 4.03 A147 147 0 0 1 167.40 295.97" stroke="#D97757" stroke-width="1.4" vector-effect="non-scaling-stroke"></path>
+        <path d="M132.60 295.97 A147 147 0 0 1 132.60 4.03" stroke="#D97757" stroke-width="1.4" vector-effect="non-scaling-stroke"></path>
+        <path d="M27.20 132.74 A124 124 0 0 1 267.93 111.68" stroke="#2B2B2B" stroke-opacity="0.2" stroke-width="1" vector-effect="non-scaling-stroke"></path>
+        <path d="M265.77 194.44 A124 124 0 0 1 27.20 167.26" stroke="#2B2B2B" stroke-opacity="0.2" stroke-width="1" vector-effect="non-scaling-stroke"></path>
+      </svg>
+      <nav aria-label="현재 위치" style="position: relative; font-size: 14px; color: #7E6054"><a href="Main.dc.html" style="color: inherit; text-decoration: none">홈</a>   /   업무 분야   /   {{s.title}}</nav>
+      <p style="position: relative; margin: 20px 0 0; font-family: 'Inter', sans-serif; font-weight: 600; font-size: 13px; letter-spacing: 0.16em; color: #B4552F">SERVICE {{s.num}}</p>
+      <h1 style="position: relative; margin: 0; font-family: 'Noto Sans KR', sans-serif; font-weight: 700; font-size: clamp(38px, 4.6vw, 66px); line-height: 1.35; letter-spacing: -0.02em">{{s.title}}</h1>
+      <p style="position: relative; margin: 0; font-size: 19px; line-height: 1.7; color: #6B5149">{{s.tagline}}</p>
+    </header>
+
+    <nav aria-label="업무 분야" style="box-sizing: border-box; padding: 0 clamp(24px, 8.5%, 100px); background: #FFFFFF; border-bottom: 1px solid #F3D9CB; display: flex; flex-wrap: wrap">
+      <sc-for list="{{tabs}}" as="t" hint-placeholder-count="6">
+        <a href="{{t.href}}" style="flex: 1 1 130px; display: flex; justify-content: center; align-items: center; min-height: 72px; font-size: 16px; text-decoration: none; font-weight: {{t.weight}}; color: {{t.color}}; box-shadow: {{t.shadow}}">{{t.label}}</a>
+      </sc-for>
+    </nav>
+
+    <section aria-label="업무 소개" style="box-sizing: border-box; padding: 140px clamp(24px, 8.5%, 100px); background: #FFFFFF; display: flex; flex-wrap: wrap; gap: 48px 80px">
+      <h2 style="flex: 1 1 320px; margin: 0; font-family: 'Noto Sans KR', sans-serif; font-weight: 600; font-size: 40px; line-height: 1.45; letter-spacing: -0.02em; white-space: pre-line">{{s.introH}}</h2>
+      <div style="flex: 1 1 420px; display: flex; flex-direction: column; gap: 20px">
+        <p style="margin: 0; font-size: 19px; line-height: 1.8; color: #6B5149">{{s.p1}}</p>
+        <p style="margin: 0; font-size: 19px; line-height: 1.8; color: #2B2B2B">{{s.p2}}</p>
+      </div>
+    </section>
+
+    <section aria-label="이런 분께 필요합니다" style="box-sizing: border-box; padding: 150px clamp(24px, 8.5%, 100px); background: #FEF1E9; display: flex; flex-direction: column; gap: 56px">
+      <div style="display: flex; flex-direction: column; gap: 16px">
+        <p style="margin: 0; font-family: 'Inter', sans-serif; font-weight: 600; font-size: 13px; letter-spacing: 0.16em; color: #B4552F">FOR YOU</p>
+        <h2 style="margin: 0; font-family: 'Noto Sans KR', sans-serif; font-weight: 600; font-size: 42px; line-height: 1.4; letter-spacing: -0.02em">이런 분께 필요합니다</h2>
+      </div>
+      <ul style="margin: 0; padding: 0; list-style: none; display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px">
+        <sc-for list="{{s.forYou}}" as="f" hint-placeholder-count="4">
+          <li style="display: flex; flex-direction: column; gap: 20px; padding: 32px 28px 36px; background: #FFFFFF">
+            <svg aria-hidden="true" width="28" height="28" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="11" stroke="#D97757" stroke-width="1.4"></circle><path d="M7 12.3l3.2 3L17 8.6" stroke="#D97757" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+            <span style="font-size: 18px; font-weight: 500; line-height: 1.6">{{f}}</span>
+          </li>
+        </sc-for>
+      </ul>
+    </section>
+
+    <section aria-label="일주가 맡아서 하는 일" style="box-sizing: border-box; padding: 150px clamp(24px, 8.5%, 100px); background: #FFFFFF; display: flex; flex-direction: column; gap: 56px">
+      <div style="display: flex; flex-direction: column; gap: 16px">
+        <p style="margin: 0; font-family: 'Inter', sans-serif; font-weight: 600; font-size: 13px; letter-spacing: 0.16em; color: #B4552F">SCOPE</p>
+        <h2 style="margin: 0; font-family: 'Noto Sans KR', sans-serif; font-weight: 600; font-size: 42px; line-height: 1.4; letter-spacing: -0.02em">일주가 맡아서 하는 일</h2>
+      </div>
+      <ul style="margin: 0; padding: 0; list-style: none; display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 0 40px">
+        <sc-for list="{{scope}}" as="c" hint-placeholder-count="6">
+          <li style="display: flex; flex-direction: column; gap: 10px; padding: 28px 0 40px; border-top: 1px solid {{c.line}}"><span style="font-family: 'Inter', sans-serif; font-weight: 600; font-size: 13px; letter-spacing: 0.16em; color: #B4552F">{{c.n}}</span><strong style="font-size: 21px">{{c.t}}</strong><span style="font-size: 16px; line-height: 1.7; color: #6B5149">{{c.d}}</span></li>
+        </sc-for>
+      </ul>
+    </section>
+
+    <section aria-label="진행 절차" style="box-sizing: border-box; padding: 150px clamp(24px, 8.5%, 100px); background: #FEF1E9; display: flex; flex-direction: column; gap: 64px">
+      <div style="display: flex; flex-direction: column; gap: 16px">
+        <p style="margin: 0; font-family: 'Inter', sans-serif; font-weight: 600; font-size: 13px; letter-spacing: 0.16em; color: #B4552F">PROCESS</p>
+        <h2 style="margin: 0; font-family: 'Noto Sans KR', sans-serif; font-weight: 600; font-size: 42px; line-height: 1.4; letter-spacing: -0.02em">이렇게 진행됩니다</h2>
+      </div>
+      <ol style="margin: 0; padding: 0; list-style: none; display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 32px 24px">
+        <sc-for list="{{steps}}" as="p" hint-placeholder-count="4">
+          <li style="display: flex; flex-direction: column; gap: 14px">
+            <span style="display: flex; align-items: center; gap: 12px"><span style="display: flex; justify-content: center; align-items: center; width: 56px; height: 56px; border-radius: 50%; border: 1px solid #D97757; box-sizing: border-box; font-family: 'Inter', sans-serif; font-weight: 600; font-size: 15px; background: {{p.bg}}; color: {{p.fg}}">{{p.n}}</span><span aria-hidden="true" style="flex: 1; height: 1px; background: #D97757; opacity: {{p.lineOpacity}}"></span></span>
+            <strong style="padding-top: 8px; font-size: 21px">{{p.t}}</strong>
+            <span style="font-size: 16px; line-height: 1.7; color: #6B5149">{{p.d}}</span>
+          </li>
+        </sc-for>
+      </ol>
+    </section>
+
+    <section aria-label="자주 묻는 질문" style="box-sizing: border-box; padding: 150px clamp(24px, 8.5%, 100px); background: #FFFFFF; display: flex; flex-wrap: wrap; gap: 48px 80px">
+      <div style="flex: 1 1 240px; display: flex; flex-direction: column; gap: 16px">
+        <p style="margin: 0; font-family: 'Inter', sans-serif; font-weight: 600; font-size: 13px; letter-spacing: 0.16em; color: #B4552F">FAQ</p>
+        <h2 style="margin: 0; font-family: 'Noto Sans KR', sans-serif; font-weight: 600; font-size: 42px; line-height: 1.4; letter-spacing: -0.02em">자주 묻는 질문</h2>
+      </div>
+      <div style="flex: 3 1 480px; display: flex; flex-direction: column; border-top: 1px solid #2B2B2B">
+        <sc-for list="{{faqs}}" as="f" hint-placeholder-count="4">
+          <div style="border-bottom: 1px solid #F3D9CB">
+            <button type="button" onClick="{{f.toggle}}" aria-expanded="{{f.expanded}}" style="width: 100%; display: flex; align-items: center; gap: 16px; min-height: 84px; padding: 0; background: none; border: 0; cursor: pointer; text-align: left; font-family: 'Noto Sans KR', sans-serif; color: #2B2B2B">
+              <span style="font-family: 'Noto Sans KR', sans-serif; font-weight: 600; font-size: 20px; color: #B4552F">Q</span>
+              <span style="flex: 1; font-size: 19px; font-weight: 500; letter-spacing: -0.01em">{{f.q}}</span>
+              <span aria-hidden="true" style="font-size: 24px; font-weight: 300; color: {{f.iconColor}}">{{f.icon}}</span>
+            </button>
+            <sc-if value="{{f.open}}" hint-placeholder-val="{{false}}">
+              <p style="margin: 0; padding: 0 40px 28px 36px; font-size: 16px; line-height: 1.8; color: #6B5149">{{f.a}}</p>
+            </sc-if>
+          </div>
+        </sc-for>
+      </div>
+    </section>
+
+    <section aria-label="상담 안내" style="box-sizing: border-box; padding: 120px clamp(24px, 8.5%, 100px); background: #D97757; color: #FFFFFF; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 40px">
+      <div style="display: flex; flex-direction: column; gap: 16px">
+        <p style="margin: 0; font-family: 'Inter', sans-serif; font-weight: 600; font-size: 13px; letter-spacing: 0.16em">CONTACT</p>
+        <h2 style="margin: 0; font-family: 'Noto Sans KR', sans-serif; font-weight: 600; font-size: 42px; line-height: 1.4; letter-spacing: -0.02em">{{s.ctaT}}</h2>
+        <p style="margin: 0; font-size: 19px; line-height: 1.7">{{s.ctaD}}</p>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 10px; min-width: 280px">
+        <a href="#" style="display: flex; align-items: center; gap: 14px; min-height: 60px; padding: 0 18px; background: #FFFFFF; border-radius: 8px; color: #2B2B2B; font-size: 16px; font-weight: 700; text-decoration: none"><svg aria-hidden="true" width="32" height="32" viewBox="0 0 34 34" style="flex: none"><rect width="34" height="34" rx="8" fill="#FEE500"></rect><path d="M17 9.5c-5 0-9 3.1-9 7 0 2.5 1.7 4.7 4.2 6l-1 3.6c-.1.3.3.6.6.4l4.2-2.8c.3 0 .7.1 1 .1 5 0 9-3.1 9-7s-4-7.3-9-7.3z" fill="#191919"></path></svg>카카오톡 상담</a>
+        <a href="https://map.naver.com/p/entry/place/2058841701" style="display: flex; align-items: center; gap: 14px; min-height: 60px; padding: 0 18px; background: #FFFFFF; border-radius: 8px; color: #2B2B2B; font-size: 16px; font-weight: 700; text-decoration: none"><svg aria-hidden="true" width="32" height="32" viewBox="0 0 34 34" style="flex: none"><rect width="34" height="34" rx="8" fill="#03C75A"></rect><path d="M10.5 10h4.6l4.3 6.3V10H24v14h-4.6l-4.3-6.3V24h-4.6z" fill="#FFFFFF"></path></svg>네이버 방문예약</a>
+        <a href="tel:07043480111" style="margin-top: 6px; font-size: 14px; color: rgba(255,255,255,0.9); text-decoration: none">전화 070-4348-0111</a>
+      </div>
+    </section>
+
+    <dc-import name="Footer" hint-size="100%,280px"></dc-import>
+  </main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"service":{"editor":"enum","options":["bookkeeping","adjustment","consulting","transfer","refund","appeal"],"default":"bookkeeping"},"$preview":{"width":1440,"height":4700}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = { open: 0, key: null };
+  }
+  data() {
+    return {
+      bookkeeping: {
+        file: 'Service-Bookkeeping.dc.html', title: '기장 · 신고대리',
+        tagline: '장부는 일주가 정리하고, 사장님은 사업에만 집중하세요.',
+        introH: '매달 쌓이는 장부,\n신고 기한까지\n대신 챙깁니다.',
+        p1: '기장은 사업의 모든 거래를 장부로 기록하는 일입니다. 일주는 매월 거래 자료를 받아 장부를 작성하고, 부가가치세 · 원천세 · 종합소득세 · 법인세 신고까지 한 흐름으로 관리합니다.',
+        p2: '신고 때만 급하게 자료를 찾지 않도록, 평소에 미리 정리해 둡니다.',
+        forYou: ['사업을 막 시작해 세금 신고가 처음인 분', '직원을 채용해 급여 · 4대보험 관리가 필요한 분', '매출이 늘어 복식부기 의무자가 된 분', '법인을 운영하며 결산 · 법인세 신고가 필요한 분'],
+        scope: [['장부 작성', '매월 매출 · 매입 자료로 복식부기 장부를 작성합니다.'], ['부가가치세 신고', '예정 · 확정 신고와 매입세액 공제 항목을 검토합니다.'], ['원천세 · 4대보험', '급여 계산, 원천세 신고, 4대보험 취득 · 상실을 처리합니다.'], ['종합소득세 · 법인세', '연 1회 결산과 함께 소득세 · 법인세를 신고합니다.'], ['지급명세서 · 연말정산', '근로 · 사업 · 기타소득 지급명세서와 연말정산을 처리합니다.'], ['세무 일정 안내', '신고 기한과 준비할 서류를 미리 알려드립니다.']],
+        steps: [['상담', '업종과 매출 규모, 현재 상황을 듣고 맡길 범위를 정합니다.'], ['자료 연동', '홈택스 수임 동의와 카드 · 계좌 자료를 연결합니다.'], ['매월 관리', '매월 장부를 작성하고 필요한 내용을 먼저 안내합니다.'], ['신고 · 결과 안내', '기한 안에 신고하고 납부 세액과 결과를 설명드립니다.']],
+        faqs: [['기장료는 어떻게 정해지나요?', '업종, 매출 규모, 직원 수, 한 달 거래량에 따라 달라집니다. 상담에서 사업장 상황을 듣고 정확한 금액을 안내드립니다.'], ['다른 세무사무소에서 옮겨와도 되나요?', '네, 가능합니다. 홈택스 수임 동의와 기존 장부 · 신고 자료만 준비해 주시면, 이후 정리와 이관은 일주가 맡습니다.'], ['자료는 어떻게 전달하나요?', '카드 · 계좌 내역과 세금계산서는 홈택스와 연동해 받습니다. 그 밖의 영수증은 사진이나 파일로 보내주시면 됩니다.'], ['직원이 없어도 기장이 필요한가요?', '매출이 일정 금액을 넘으면 장부 작성 의무가 생기고, 장부를 쓰지 않으면 가산세가 붙을 수 있습니다. 의무가 아니더라도 장부를 쓰면 경비를 인정받기 쉬워 절세에 유리합니다.']],
+        ctaT: '기장, 이제 일주에 맡겨보세요.', ctaD: '업종과 매출 규모를 알려주시면 맞는 방법을 안내드립니다.'
+      },
+      adjustment: {
+        file: 'Service-Adjustment.dc.html', title: '외부조정',
+        tagline: '세무조정, 숫자 하나까지 근거를 남깁니다.',
+        introH: '결산 숫자를\n세법의 숫자로\n정확하게 바꿉니다.',
+        p1: '외부조정은 회계상 이익을 세법에 맞게 조정해 과세소득을 계산하는 일입니다. 일정 규모 이상의 사업자는 외부 세무 전문가가 작성한 세무조정계산서를 제출해야 합니다.',
+        p2: '일주는 조정 항목마다 근거를 남겨, 나중에 세무서가 물어도 설명할 수 있게 준비합니다.',
+        forYou: ['외부조정 대상 기준에 해당하는 법인', '성실신고확인 대상 개인사업자', '장부는 직접 쓰지만 세무조정이 어려운 기업', '지난 조정 내용이 맞는지 다시 보고 싶은 분'],
+        scope: [['세무조정계산서 작성', '익금 · 손금 항목을 검토해 과세소득을 계산합니다.'], ['법인세 · 소득세 신고', '조정 결과를 바탕으로 기한 안에 신고합니다.'], ['세액공제 · 감면 검토', '받을 수 있는 공제와 감면을 빠짐없이 확인합니다.'], ['성실신고확인', '성실신고확인 대상자의 확인서를 작성합니다.'], ['리스크 항목 점검', '가지급금, 업무용 차량 등 세무 리스크가 큰 항목을 미리 정리합니다.'], ['조정 내역 설명', '어떤 항목이 왜 조정됐는지 이해하기 쉽게 설명합니다.']],
+        steps: [['자료 수령', '결산 재무제표와 장부를 받습니다.'], ['조정 항목 검토', '익금 · 손금, 공제 · 감면 항목을 검토합니다.'], ['계산서 작성', '세무조정계산서와 신고서를 작성합니다.'], ['신고 · 결과 안내', '기한 안에 신고하고 결과를 설명드립니다.']],
+        faqs: [['외부조정 대상인지 어떻게 알 수 있나요?', '업종별 수입금액 기준 등 요건에 따라 정해집니다. 지난해 매출과 업종을 알려주시면 대상인지 확인해 드립니다.'], ['기장은 다른 곳에서 하고 조정만 맡길 수 있나요?', '네, 가능합니다. 결산 자료를 받아 세무조정과 신고만 진행할 수 있습니다.'], ['신고 기한은 언제인가요?', '법인세는 사업연도가 끝나는 달의 말일부터 3개월 안에 신고합니다. 개인 성실신고확인 대상자는 6월 30일까지 신고합니다.'], ['지난해 조정이 잘못된 것 같으면요?', '수정신고나 경정청구로 바로잡을 수 있습니다. 지난 계산서를 함께 검토해 드립니다.']],
+        ctaT: '세무조정, 일주에 맡겨보세요.', ctaD: '결산 자료만 준비해 주시면 나머지는 일주가 챙깁니다.'
+      },
+      consulting: {
+        file: 'Service-Consulting.dc.html', title: '세무컨설팅',
+        tagline: '결정하기 전에, 세금부터 함께 계산합니다.',
+        introH: '같은 결정도\n순서와 방법에 따라\n세금이 달라집니다.',
+        p1: '창업 형태를 정할 때, 법인으로 전환할 때, 큰 투자나 사업장 이전을 앞둘 때. 일주는 실행 전에 선택지별 세금을 미리 계산해 비교해 드립니다.',
+        p2: '결정은 사장님이, 근거는 일주가 준비합니다.',
+        forYou: ['개인사업자와 법인 중 고민하는 예비 창업자', '매출이 늘어 법인 전환을 고민하는 분', '창업 감면 · 고용 공제를 확인하고 싶은 분', '대표 급여 · 가지급금을 정리하고 싶은 법인'],
+        scope: [['창업 형태 설계', '개인사업자와 법인 중 유리한 형태를 비교합니다.'], ['법인 전환', '전환 시점과 방법, 세 부담을 미리 계산합니다.'], ['세액감면 · 공제 검토', '창업 감면, 고용 관련 공제 등을 확인합니다.'], ['급여 · 배당 설계', '대표 보수와 배당의 균형을 맞춥니다.'], ['가지급금 정리', '쌓인 가지급금을 정리하는 방법을 찾습니다.'], ['의사결정 리포트', '선택지별 세금을 한눈에 비교해 드립니다.']],
+        steps: [['상황 파악', '사업 현황과 앞둔 결정을 듣습니다.'], ['선택지 정리', '가능한 방법을 2~3가지로 정리합니다.'], ['세금 비교', '선택지별 세금을 계산해 비교합니다.'], ['실행 지원', '정하신 방법의 신고와 절차를 함께 진행합니다.']],
+        faqs: [['컨설팅만 따로 받을 수 있나요?', '네. 기장 계약 없이도 특정 결정에 대한 컨설팅만 받으실 수 있습니다.'], ['비용은 어떻게 되나요?', '검토 범위와 난이도에 따라 달라집니다. 상담에서 범위를 정한 뒤 미리 안내드립니다.'], ['법인 전환은 언제 하는 게 좋나요?', '매출 규모, 이익 수준, 앞으로의 계획에 따라 다릅니다. 지금 숫자로 전환 전후 세금을 비교해 판단을 도와드립니다.'], ['창업 감면은 누구나 받을 수 있나요?', '업종, 지역, 대표자 나이 등 요건이 있습니다. 해당하는지 확인해 드립니다.']],
+        ctaT: '결정 전에, 먼저 물어보세요.', ctaD: '선택지별 세금을 비교해 드립니다.'
+      },
+      transfer: {
+        file: 'Service-Transfer.dc.html', title: '양도 · 상속 · 증여',
+        tagline: '자산을 옮기기 전에, 세금을 먼저 설계합니다.',
+        introH: '언제, 누구에게,\n어떻게 옮기느냐에 따라\n세금이 달라집니다.',
+        p1: '부동산을 팔 때, 자녀에게 재산을 넘겨줄 때, 가족에게 상속이 일어났을 때. 시점과 방법에 따라 세금 차이가 큽니다.',
+        p2: '일주는 실행 전에 여러 경우를 계산해 비교하고, 신고까지 함께합니다.',
+        forYou: ['집이나 토지 매도를 앞둔 분', '자녀에게 증여를 계획하는 분', '가족의 상속이 시작된 분', '사업이나 지분을 다음 세대에 넘기려는 분'],
+        scope: [['양도소득세', '비과세 · 감면 여부를 확인하고 세액을 계산해 신고합니다.'], ['증여세', '증여 시기와 금액을 나눠 세 부담을 줄이는 방법을 찾습니다.'], ['상속세', '재산 평가부터 공제 적용, 신고까지 진행합니다.'], ['사전 시뮬레이션', '실행 전에 경우별 세금을 비교해 드립니다.'], ['자금출처 대비', '주택 취득 시 자금출처 확인에 미리 대비합니다.'], ['가업 · 지분 이전', '사업과 지분을 넘길 때의 세금을 설계합니다.']],
+        steps: [['상담', '옮기려는 자산과 계획을 듣습니다.'], ['현황 확인', '자산 가치, 가족 관계, 보유 기간을 확인합니다.'], ['경우별 세금 비교', '시점과 방법별로 세금을 계산합니다.'], ['신고 · 납부 안내', '기한 안에 신고하고 납부 방법을 안내합니다.']],
+        faqs: [['양도소득세는 언제 신고하나요?', '부동산은 양도일이 속하는 달의 말일부터 2개월 안에 예정신고를 해야 합니다.'], ['자녀에게 얼마까지 세금 없이 증여할 수 있나요?', '기본적으로 성인 자녀는 10년간 5천만 원, 미성년 자녀는 2천만 원까지 증여재산공제가 적용됩니다. 혼인 · 출산 등 추가 공제는 상황에 따라 확인해 드립니다.'], ['상속세 신고 기한은요?', '상속이 시작된 날이 속하는 달의 말일부터 6개월 안에 신고해야 합니다.'], ['이미 팔았는데 상담받아도 되나요?', '네. 신고 기한 안이라면 비과세 · 감면 여부를 확인해 신고를 도와드립니다.']],
+        ctaT: '옮기기 전에, 먼저 계산해 보세요.', ctaD: '실행 전 상담이 가장 큰 절세입니다.'
+      },
+      refund: {
+        file: 'Service-Refund.dc.html', title: '경정청구',
+        tagline: '더 낸 세금, 돌려받을 수 있는지 확인해 드립니다.',
+        introH: '이미 낸 세금도\n다시 볼 수 있습니다.',
+        p1: '신고할 때 놓친 공제나 감면이 있었다면, 경정청구로 더 낸 세금을 돌려받을 수 있습니다. 법정 신고 기한이 지난 뒤 5년 안이라면 청구할 수 있습니다.',
+        p2: '일주는 지난 신고서를 다시 검토해 돌려받을 수 있는 항목을 찾습니다.',
+        forYou: ['프리랜서로 3.3%를 떼인 분', '창업 감면이나 고용 공제를 몰랐던 분', '부양가족 · 경비를 빠뜨렸을 수 있는 분', '다른 곳에서 신고했지만 결과가 궁금한 분'],
+        scope: [['지난 5년 신고서 검토', '종합소득세 · 법인세 · 부가세 신고 내역을 다시 봅니다.'], ['누락 공제 · 감면 확인', '창업 감면, 고용 공제, 부양가족 공제 등을 확인합니다.'], ['환급 예상액 계산', '돌려받을 수 있는 금액을 미리 계산해 드립니다.'], ['경정청구서 작성 · 제출', '근거 자료와 함께 청구서를 제출합니다.'], ['세무서 확인 대응', '세무서의 자료 요청과 확인에 대응합니다.'], ['결과 안내', '환급 결정과 입금 여부를 확인해 알려드립니다.']],
+        steps: [['자료 확인', '지난 신고서와 납부 내역을 받습니다.'], ['환급 가능성 검토', '놓친 공제와 감면을 찾고 예상액을 알려드립니다.'], ['청구서 제출', '근거 자료와 함께 경정청구를 진행합니다.'], ['결과 안내', '세무서 결정과 환급 입금까지 확인합니다.']],
+        faqs: [['경정청구는 언제까지 할 수 있나요?', '법정 신고 기한이 지난 뒤 5년 안에 할 수 있습니다.'], ['돌려받을 금액이 없으면 어떻게 되나요?', '검토 결과 돌려받을 금액이 없으면 그대로 안내드립니다. 비용 방식은 상담에서 미리 말씀드립니다.'], ['청구하면 세무서에서 연락이 오나요?', '세무서가 근거 자료를 확인하려고 연락할 수 있습니다. 이때 자료 요청과 확인은 일주가 대응합니다.'], ['환급까지 얼마나 걸리나요?', '세무서는 청구를 받은 날부터 2개월 안에 결과를 알려야 합니다.']],
+        ctaT: '돌려받을 세금, 먼저 확인해 보세요.', ctaD: '지난 신고서만 있으면 검토를 시작할 수 있습니다.'
+      },
+      appeal: {
+        file: 'Service-Appeal.dc.html', title: '조세불복',
+        tagline: '부당한 과세에는, 근거로 답합니다.',
+        introH: '받아들이기 어려운\n과세 처분이라면\n바로잡을 수 있습니다.',
+        p1: '세무서의 과세 처분이 사실이나 법에 맞지 않다면 이의신청, 심사청구, 심판청구로 다툴 수 있습니다. 처분을 안 날부터 90일 안에 청구해야 하므로 빠른 대응이 중요합니다.',
+        p2: '일주는 처분의 근거를 분석하고, 주장과 증빙을 갖춰 청구를 진행합니다.',
+        forYou: ['세무조사 뒤 추징 고지를 받은 분', '과세 예고 통지를 받은 분', '경정청구가 거부된 분', '가산세가 과하다고 느끼는 분'],
+        scope: [['과세전적부심사', '세금이 고지되기 전에 과세 예고에 대해 다툽니다.'], ['이의신청', '처분한 세무서나 지방국세청에 다시 판단을 구합니다.'], ['심사 · 심판청구', '국세청 또는 조세심판원에 청구합니다.'], ['처분 근거 분석', '과세 논리와 사실관계를 검토합니다.'], ['증빙 · 의견서 작성', '주장을 뒷받침하는 자료와 의견서를 준비합니다.'], ['진행 · 결과 안내', '단계별 진행 상황과 결과를 설명합니다.']],
+        steps: [['처분 서류 검토', '고지서와 조사 결과를 확인합니다.'], ['다툼 가능성 판단', '사실과 법리를 검토해 방향을 정합니다.'], ['청구서 · 증빙 준비', '주장과 근거 자료를 갖춥니다.'], ['청구 진행 · 결과 안내', '청구부터 결정까지 진행 상황을 알려드립니다.']],
+        faqs: [['기한이 얼마나 남았는지 모르겠어요', '고지서나 통지서를 받은 날을 알려주시면 남은 기한을 바로 확인해 드립니다.'], ['과세전적부심사와 이의신청은 뭐가 다른가요?', '과세전적부심사는 세금이 고지되기 전에, 이의신청은 고지된 뒤에 다투는 절차입니다.'], ['세금을 먼저 내야 하나요?', '불복을 청구해도 원칙적으로 고지된 세금은 납부해야 합니다. 청구가 받아들여지면 낸 세금을 돌려받습니다.'], ['다툴 여지가 있는지 먼저 알 수 있나요?', '네. 처분 서류를 검토해 다툴 여지가 있는지 먼저 말씀드립니다.']],
+        ctaT: '기한이 지나기 전에, 바로 상담하세요.', ctaD: '처분 서류를 보내주시면 다툴 여지부터 검토합니다.'
+      }
+    };
+  }
+  renderVals() {
+    const keys = ['bookkeeping', 'adjustment', 'consulting', 'transfer', 'refund', 'appeal'];
+    const all = this.data();
+    const key = keys.includes(this.props.service) ? this.props.service : 'bookkeeping';
+    const index = keys.indexOf(key);
+    const d = all[key];
+    const openIdx = this.state.key === key ? this.state.open : 0;
+    const s = { ...d, index, num: String(index + 1).padStart(2, '0') };
+    const tabs = keys.map((k) => ({
+      label: all[k].title,
+      href: all[k].file,
+      weight: k === key ? '700' : '400',
+      color: k === key ? '#2B2B2B' : '#7E6054',
+      shadow: k === key ? 'inset 0 -2px 0 #D97757' : 'none'
+    }));
+    const scope = d.scope.map(([t, dd], i) => ({ t, d: dd, n: String(i + 1).padStart(2, '0'), line: i < 3 ? '#2B2B2B' : '#F3D9CB' }));
+    const steps = d.steps.map(([t, dd], i) => ({
+      t, d: dd, n: String(i + 1).padStart(2, '0'),
+      bg: i === 0 ? '#D97757' : '#FFFFFF', fg: i === 0 ? '#FFFFFF' : '#B4552F',
+      lineOpacity: i === d.steps.length - 1 ? '0' : '0.5'
+    }));
+    const faqs = d.faqs.map(([q, a], i) => {
+      const open = openIdx === i;
+      return { q, a, open, expanded: open ? 'true' : 'false', icon: open ? '−' : '+', iconColor: open ? '#B4552F' : '#2B2B2B', toggle: () => this.setState({ key, open: open ? -1 : i }) };
+    });
+    return { s, tabs, scope, steps, faqs };
+  }
+}
+</script>
+</body>
+</html>

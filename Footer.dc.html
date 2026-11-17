@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<title>하단 정보</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&amp;family=Inter:wght@500;600&amp;display=swap" rel="stylesheet">
+<style>body{margin:0}</style>
+</helmet>
+<footer style="box-sizing: border-box; width: 100%; background: #2B2B2B; color: #FFFFFF; font-family: 'Noto Sans KR', sans-serif; letter-spacing: -0.01em; padding: 64px clamp(24px, 8.5%, 100px); display: flex; flex-direction: column; gap: 28px">
+  <div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 20px">
+    <img src="assets/logo-horizontal-white.png" alt="세무회계 일주" style="width: 200px; height: auto; display: block">
+    <div style="display: flex; gap: 24px">
+      <a href="#" style="display: inline-flex; align-items: center; min-height: 44px; font-size: 14px; font-weight: 700; color: #FFFFFF; text-decoration: none">개인정보처리방침</a>
+      <a href="#" style="display: inline-flex; align-items: center; min-height: 44px; font-size: 14px; color: rgba(255,255,255,0.75); text-decoration: none">이용약관</a>
+    </div>
+  </div>
+  <p style="margin: 0; font-size: 14px; line-height: 1.9; color: rgba(255,255,255,0.7)">대표 세무사 최준우   |   사업자등록번호 000-00-00000<br>전남광주통합특별시 북구 첨단과기로208번길 43-10, 첨단IBC 지식산업센터 B동 619호<br>TEL 070-4348-0111   |   FAX 0507-1795-5224   |   EMAIL info@ilju.kr</p>
+  <p style="margin: 0; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.12); font-size: 13px; line-height: 1.8; color: rgba(255,255,255,0.6)">이 홈페이지의 세무 정보는 일반적인 안내입니다. 실제 세금은 사실관계와 법령 개정에 따라 달라질 수 있으니, 적용 전 꼭 상담을 받아 주세요.</p>
+  <p style="margin: 0; font-size: 13px; color: rgba(255,255,255,0.6)">© 2026 세무회계 일주. All rights reserved.</p>
+</footer>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1176,"height":280}}'>
+class Component extends DCLogic {
+  renderVals() {
+    return {};
+  }
+}
+</script>
+</body>
+</html>

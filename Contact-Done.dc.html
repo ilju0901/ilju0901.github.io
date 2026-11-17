@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<title>상담 신청 접수 완료</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&amp;family=Inter:wght@500;600&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+a{color:inherit;text-decoration:none}
+a:hover{color:#B4552F}
+</style>
+</helmet>
+<div style="display: flex; flex-wrap: wrap; align-items: stretch; background: #FEF1E9; color: #2B2B2B; font-family: 'Noto Sans KR', sans-serif; letter-spacing: -0.01em">
+  <div style="flex: 1 1 264px; background: #2B2B2B">
+    <div style="position: sticky; top: 0; max-height: 100vh; overflow-y: auto"><dc-import name="Sidebar" active="contact" hint-size="100%,900px"></dc-import></div>
+  </div>
+  <main style="flex: 999 1 560px; min-width: 0; display: flex; flex-direction: column">
+
+    <section aria-labelledby="done-title" style="position: relative; overflow: hidden; box-sizing: border-box; padding: 160px clamp(24px, 8.5%, 100px) 120px; background: #FEF1E9; display: flex; flex-direction: column; align-items: center; text-align: center; gap: 24px">
+      <svg aria-hidden="true" viewBox="0 0 300 300" style="width: 120px; height: 120px" fill="none">
+        <path d="M167.40 4.03 A147 147 0 0 1 167.40 295.97" stroke="#D97757" stroke-width="2" vector-effect="non-scaling-stroke"></path>
+        <path d="M132.60 295.97 A147 147 0 0 1 132.60 4.03" stroke="#D97757" stroke-width="2" vector-effect="non-scaling-stroke"></path>
+        <path d="M27.20 132.74 A124 124 0 0 1 267.93 111.68" stroke="#2B2B2B" stroke-opacity="0.25" stroke-width="1.2" vector-effect="non-scaling-stroke"></path>
+        <path d="M265.77 194.44 A124 124 0 0 1 27.20 167.26" stroke="#2B2B2B" stroke-opacity="0.25" stroke-width="1.2" vector-effect="non-scaling-stroke"></path>
+        <path d="M105 152 L138 184 L198 120" stroke="#D97757" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" vector-effect="non-scaling-stroke"></path>
+      </svg>
+      <p style="margin: 16px 0 0; font-family: 'Inter', sans-serif; font-weight: 600; font-size: 13px; letter-spacing: 0.16em; color: #B4552F">THANK YOU</p>
+      <h1 id="done-title" style="margin: 0; font-family: 'Noto Sans KR', sans-serif; font-weight: 700; font-size: clamp(32px, 3.6vw, 52px); line-height: 1.4; letter-spacing: -0.02em">좋은 시작입니다.<br>상담 신청이 접수되었습니다.</h1>
+      <p style="margin: 0; font-size: 19px; line-height: 1.75; color: #6B5149">남겨주신 내용을 세무사가 직접 확인한 뒤,<br>선택하신 방법으로 연락드리겠습니다.</p>
+    </section>
+
+    <section aria-label="접수 내용과 준비 안내" style="box-sizing: border-box; padding: 100px clamp(24px, 8.5%, 100px) 150px; background: #FFFFFF; display: flex; flex-wrap: wrap; gap: 48px 64px">
+      <div style="flex: 1 1 360px; display: flex; flex-direction: column; gap: 20px">
+        <h2 style="margin: 0; font-size: 21px; font-weight: 700">접수 내용</h2>
+        <dl style="margin: 0; display: grid; grid-template-columns: 120px minmax(0, 1fr); border-top: 1px solid #2B2B2B">
+          <dt style="padding: 18px 0; border-bottom: 1px solid #F3D9CB; font-size: 15px; color: #7E6054">이름</dt>
+          <dd style="margin: 0; padding: 18px 0; border-bottom: 1px solid #F3D9CB; font-size: 16px">홍길동</dd>
+          <dt style="padding: 18px 0; border-bottom: 1px solid #F3D9CB; font-size: 15px; color: #7E6054">연락처</dt>
+          <dd style="margin: 0; padding: 18px 0; border-bottom: 1px solid #F3D9CB; font-size: 16px">010-****-0000</dd>
+          <dt style="padding: 18px 0; border-bottom: 1px solid #F3D9CB; font-size: 15px; color: #7E6054">사업자 유형</dt>
+          <dd style="margin: 0; padding: 18px 0; border-bottom: 1px solid #F3D9CB; font-size: 16px">개인사업자</dd>
+          <dt style="padding: 18px 0; border-bottom: 1px solid #F3D9CB; font-size: 15px; color: #7E6054">상담 분야</dt>
+          <dd style="margin: 0; padding: 18px 0; border-bottom: 1px solid #F3D9CB; font-size: 16px">{{field}}</dd>
+          <dt style="padding: 18px 0; border-bottom: 1px solid #F3D9CB; font-size: 15px; color: #7E6054">연락 방법</dt>
+          <dd style="margin: 0; padding: 18px 0; border-bottom: 1px solid #F3D9CB; font-size: 16px">전화</dd>
+        </dl>
+        <p style="margin: 0; font-size: 14px; line-height: 1.7; color: #7E6054">연락은 평일 09:00 – 18:00 사이에 드립니다. 급하신 경우 <a href="tel:07043480111" style="color: #2B2B2B; text-decoration: underline">070-4348-0111</a>로 전화 주세요.</p>
+      </div>
+
+      <div style="flex: 1 1 360px; display: flex; flex-direction: column; gap: 20px; padding: 36px 32px; background: #FEF1E9; align-self: flex-start; box-sizing: border-box">
+        <div style="display: flex; flex-direction: column; gap: 6px">
+          <p style="margin: 0; font-size: 14px; font-weight: 500; color: #B4552F">{{field}}</p>
+          <h2 style="margin: 0; font-size: 21px; font-weight: 700">상담 전에 준비해 두시면 좋아요</h2>
+        </div>
+        <ul style="margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column">
+          <sc-for list="{{prep}}" as="p" hint-placeholder-count="3">
+            <li style="display: flex; gap: 14px; align-items: flex-start; padding: 16px 0; border-bottom: 1px solid {{p.line}}">
+              <svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" style="flex: none; margin-top: 2px"><circle cx="12" cy="12" r="11" stroke="#D97757" stroke-width="1.4"></circle><path d="M7 12.3l3.2 3L17 8.6" stroke="#D97757" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+              <span style="display: flex; flex-direction: column; gap: 2px"><strong style="font-size: 16px; font-weight: 500">{{p.t}}</strong><span style="font-size: 14px; line-height: 1.6; color: #6B5149">{{p.d}}</span></span>
+            </li>
+          </sc-for>
+        </ul>
+      </div>
+
+      <div style="flex: 1 1 100%; display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; padding-top: 24px">
+        <a href="Main.dc.html" style="display: inline-flex; align-items: center; gap: 12px; min-height: 56px; padding: 0 30px; background: #D97757; color: #FFFFFF; font-weight: 700; font-size: 16px; border-radius: 2px">홈으로 <span aria-hidden="true">→</span></a>
+        <a href="Main.dc.html#channel" style="display: inline-flex; align-items: center; gap: 12px; min-height: 56px; padding: 0 30px; border: 1px solid #2B2B2B; font-weight: 700; font-size: 16px; border-radius: 2px">채널 일주 보기 <span aria-hidden="true">→</span></a>
+      </div>
+    </section>
+
+    <dc-import name="Footer" hint-size="100%,280px"></dc-import>
+  </main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"field":{"editor":"enum","options":["기장 · 신고대리","외부조정","세무컨설팅","양도 · 상속 · 증여","경정청구","조세불복"],"default":"기장 · 신고대리"},"$preview":{"width":1440,"height":1700}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const field = this.props.field ?? '기장 · 신고대리';
+    const map = {
+      '기장 · 신고대리': [
+        ['사업자등록증', '사업자라면 등록번호와 업종을 확인할 수 있게 준비해 주세요.'],
+        ['최근 신고 내역', '지난해 종합소득세 · 부가세 신고서가 있다면 함께 봐 드립니다.'],
+        ['대략적인 매출 규모', '정확하지 않아도 괜찮습니다. 월 매출과 직원 수 정도면 충분합니다.']
+      ],
+      '외부조정': [
+        ['최근 3년 재무제표', '결산이 끝난 재무상태표와 손익계산서를 준비해 주세요.'],
+        ['지난해 세무조정계산서', '이전에 받은 조정 내역이 있으면 비교해 검토합니다.'],
+        ['주요 변동 내역', '큰 자산 취득 · 처분이나 새 거래처가 있었다면 알려주세요.']
+      ],
+      '세무컨설팅': [
+        ['현재 사업 현황', '업종, 매출 규모, 직원 수를 간단히 정리해 주세요.'],
+        ['최근 신고서', '지난해 종합소득세 또는 법인세 신고서가 있으면 좋습니다.'],
+        ['고민 중인 결정', '법인 전환, 사업장 이전, 투자 등 앞두고 계신 일을 알려주세요.']
+      ],
+      '양도 · 상속 · 증여': [
+        ['자산 목록', '부동산 · 주식 등 대상 자산과 대략적인 가격을 정리해 주세요.'],
+        ['취득 당시 서류', '매매계약서와 취득 비용 영수증이 있으면 세금이 달라질 수 있습니다.'],
+        ['가족 관계와 예정 시기', '누구에게, 언제 옮길 계획인지 알려주시면 미리 설계해 드립니다.']
+      ],
+      '경정청구': [
+        ['최근 5년 신고서', '경정청구는 신고 기한으로부터 5년 안에 할 수 있습니다.'],
+        ['빠졌을 수 있는 자료', '공제받지 못한 경비, 부양가족, 기부금 영수증 등을 모아 주세요.'],
+        ['납부 내역', '실제로 낸 세금을 확인할 수 있는 납부 영수증을 준비해 주세요.']
+      ],
+      '조세불복': [
+        ['고지서 · 처분 통지서', '받으신 과세 처분 서류를 그대로 준비해 주세요.'],
+        ['처분을 받은 날짜', '불복 청구는 처분을 안 날부터 90일 안에 해야 합니다. 서둘러 주세요.'],
+        ['관련 증빙 자료', '처분이 잘못됐다고 보시는 근거 자료를 모아 주세요.']
+      ]
+    };
+    const rows = map[field] || map['기장 · 신고대리'];
+    const prep = rows.map(([t, d], i) => ({ t, d, line: i === rows.length - 1 ? 'transparent' : '#F3D9CB' }));
+    return { field, prep };
+  }
+}
+</script>
+</body>
+</html>

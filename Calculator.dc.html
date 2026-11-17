@@ -1,0 +1,535 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<title>세금 계산기</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&amp;family=Inter:wght@500;600&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+a{color:inherit;text-decoration:none}
+a:hover{color:#B4552F}
+input[type=number]::-webkit-inner-spin-button{opacity:0.4}
+</style>
+</helmet>
+<div style="display: flex; flex-wrap: wrap; align-items: stretch; background: #FEF1E9; color: #2B2B2B; font-family: 'Noto Sans KR', sans-serif; letter-spacing: -0.01em">
+  <div style="flex: 1 1 264px; background: #2B2B2B">
+    <div style="position: sticky; top: 0; max-height: 100vh; overflow-y: auto"><dc-import name="Sidebar" active="calc" hint-size="100%,900px"></dc-import></div>
+  </div>
+  <main style="flex: 999 1 560px; min-width: 0; display: flex; flex-direction: column">
+
+    <header style="box-sizing: border-box; padding: 150px clamp(24px, 8.5%, 100px) 72px; background: #FEF1E9; display: flex; flex-direction: column; gap: 20px">
+      <nav aria-label="현재 위치" style="font-size: 14px; color: #7E6054"><a href="Main.dc.html">홈</a>   /   세금 계산기</nav>
+      <p style="margin: 20px 0 0; font-family: 'Inter', sans-serif; font-weight: 600; font-size: 13px; letter-spacing: 0.16em; color: #B4552F">TAX CALCULATOR</p>
+      <h1 style="margin: 0; font-weight: 700; font-size: clamp(38px, 4.6vw, 66px); line-height: 1.35; letter-spacing: -0.02em">세금 계산기</h1>
+      <p style="margin: 0; font-size: 19px; line-height: 1.7; color: #6B5149">대략적인 세금을 먼저 확인해 보세요. 정확한 금액은 상담에서 함께 계산해 드립니다.</p>
+    </header>
+
+    <nav aria-label="계산기 종류" style="box-sizing: border-box; padding: 0 clamp(24px, 8.5%, 100px); background: #FFFFFF; border-bottom: 1px solid #F3D9CB; display: flex; flex-wrap: wrap">
+      <sc-for list="{{tabs}}" as="t" hint-placeholder-count="3">
+        <button type="button" onClick="{{t.pick}}" aria-pressed="{{t.pressed}}" style="flex: 1 1 130px; min-height: 72px; padding: 0 12px; background: none; border: 0; cursor: pointer; font-family: 'Noto Sans KR', sans-serif; font-size: 17px; font-weight: {{t.weight}}; color: {{t.color}}; box-shadow: {{t.shadow}}">{{t.label}}</button>
+      </sc-for>
+    </nav>
+
+    <section aria-label="계산기" style="box-sizing: border-box; padding: 80px clamp(24px, 8.5%, 100px) 150px; background: #FFFFFF; display: flex; flex-wrap: wrap; align-items: flex-start; gap: 48px 64px">
+
+      <div style="flex: 999 1 420px; min-width: 0; display: flex; flex-direction: column; gap: 36px">
+
+        <sc-if value="{{isGift}}" hint-placeholder-val="{{true}}">
+          <div style="display: flex; flex-direction: column; gap: 36px">
+            <div style="display: flex; flex-direction: column; gap: 8px">
+              <h2 style="margin: 0; font-size: 26px; font-weight: 700">증여세 계산기 <span style="font-size: 15px; font-weight: 500; color: #B4552F">약식</span></h2>
+              <p style="margin: 0; font-size: 15px; line-height: 1.7; color: #6B5149">받는 분 기준으로, 현금 · 예금처럼 금액이 분명한 재산을 받을 때의 증여세를 계산합니다.</p>
+            </div>
+            <fieldset style="margin: 0; padding: 0; border: 0; display: flex; flex-direction: column; gap: 12px">
+              <legend style="padding: 0 0 12px; font-size: 16px; font-weight: 500">누구에게서 받나요?</legend>
+              <div style="display: flex; flex-wrap: wrap; gap: 8px">
+                <sc-for list="{{rels}}" as="r" hint-placeholder-count="6">
+                  <button type="button" onClick="{{r.pick}}" aria-pressed="{{r.pressed}}" style="min-height: 46px; padding: 0 18px; border-radius: 2px; cursor: pointer; font-family: 'Noto Sans KR', sans-serif; font-size: 15px; background: {{r.bg}}; color: {{r.fg}}; border: 1px solid {{r.bd}}">{{r.label}}</button>
+                </sc-for>
+              </div>
+            </fieldset>
+            <div style="display: flex; flex-wrap: wrap; gap: 20px">
+              <label style="flex: 1 1 240px; display: flex; flex-direction: column; gap: 12px; font-size: 16px; font-weight: 500">이번에 받는 금액
+                <span style="display: flex; align-items: center; height: 56px; border: 1px solid #F3D9CB; border-radius: 2px; padding: 0 18px; gap: 8px; background: #FFFFFF">
+                  <input type="number" min="0" step="100" value="{{giftAmount}}" onInput="{{setGiftAmount}}" style="flex: 1; min-width: 0; border: 0; outline: none; font-family: 'Noto Sans KR', sans-serif; font-size: 18px; color: #2B2B2B; text-align: right; background: transparent">
+                  <span style="font-size: 15px; color: #7E6054">만원</span>
+                </span>
+              </label>
+              <label style="flex: 1 1 240px; display: flex; flex-direction: column; gap: 12px; font-size: 16px; font-weight: 500">최근 10년 안에 같은 분께 받은 금액
+                <span style="display: flex; align-items: center; height: 56px; border: 1px solid #F3D9CB; border-radius: 2px; padding: 0 18px; gap: 8px; background: #FFFFFF">
+                  <input type="number" min="0" step="100" value="{{giftPrior}}" onInput="{{setGiftPrior}}" style="flex: 1; min-width: 0; border: 0; outline: none; font-family: 'Noto Sans KR', sans-serif; font-size: 18px; color: #2B2B2B; text-align: right; background: transparent">
+                  <span style="font-size: 15px; color: #7E6054">만원</span>
+                </span>
+              </label>
+            </div>
+            <sc-if value="{{showMarriage}}" hint-placeholder-val="{{true}}">
+              <label style="display: flex; align-items: center; gap: 10px; min-height: 44px; font-size: 16px; cursor: pointer">
+                <input type="checkbox" checked="{{giftMarriage}}" onChange="{{toggleMarriage}}" style="width: 20px; height: 20px; margin: 0; accent-color: #2B2B2B">
+                결혼 또는 출산 전후 2년 안에 받는 돈이에요 <span style="font-size: 14px; color: #7E6054">(1억 원 추가 공제)</span>
+              </label>
+            </sc-if>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{isPayroll}}" hint-placeholder-val="{{false}}">
+          <div style="display: flex; flex-direction: column; gap: 36px">
+            <div style="display: flex; flex-direction: column; gap: 8px">
+              <h2 style="margin: 0; font-size: 26px; font-weight: 700">직원 인건비 계산기 <span style="font-size: 15px; font-weight: 500; color: #B4552F">2026년 요율</span></h2>
+              <p style="margin: 0; font-size: 15px; line-height: 1.7; color: #6B5149">월급을 넣으면 4대보험 회사 부담분과 직원 공제액, 회사가 실제로 쓰는 인건비를 계산합니다.</p>
+            </div>
+            <div style="display: flex; flex-wrap: wrap; gap: 20px">
+              <label style="flex: 1 1 240px; display: flex; flex-direction: column; gap: 12px; font-size: 16px; font-weight: 500">월 급여 (세전, 비과세 제외)
+                <span style="display: flex; align-items: center; height: 56px; border: 1px solid #F3D9CB; border-radius: 2px; padding: 0 18px; gap: 8px; background: #FFFFFF"><input type="number" min="0" step="10" value="{{v.pySalary}}" onInput="{{set.pySalary}}" style="flex: 1; min-width: 0; border: 0; outline: none; font-family: 'Noto Sans KR', sans-serif; font-size: 18px; color: #2B2B2B; text-align: right; background: transparent"><span style="font-size: 15px; color: #7E6054">만원</span></span>
+              </label>
+              <label style="flex: 1 1 240px; display: flex; flex-direction: column; gap: 12px; font-size: 16px; font-weight: 500">산재보험료율 (업종마다 다름)
+                <span style="display: flex; align-items: center; height: 56px; border: 1px solid #F3D9CB; border-radius: 2px; padding: 0 18px; gap: 8px; background: #FFFFFF"><input type="number" min="0" step="0.1" value="{{v.pyInd}}" onInput="{{set.pyInd}}" style="flex: 1; min-width: 0; border: 0; outline: none; font-family: 'Noto Sans KR', sans-serif; font-size: 18px; color: #2B2B2B; text-align: right; background: transparent"><span style="font-size: 15px; color: #7E6054">%</span></span>
+              </label>
+            </div>
+            <label style="display: flex; align-items: center; gap: 10px; min-height: 44px; font-size: 16px; cursor: pointer">
+              <input type="checkbox" checked="{{v.pyBig}}" onChange="{{set.pyBig}}" style="width: 20px; height: 20px; margin: 0; accent-color: #2B2B2B">
+              상시 근로자가 150명 이상이에요 <span style="font-size: 14px; color: #7E6054">(우선지원대상기업 기준)</span>
+            </label>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{isCar}}" hint-placeholder-val="{{false}}">
+          <div style="display: flex; flex-direction: column; gap: 36px">
+            <div style="display: flex; flex-direction: column; gap: 8px">
+              <h2 style="margin: 0; font-size: 26px; font-weight: 700">자동차 비용처리 계산기 <span style="font-size: 15px; font-weight: 500; color: #B4552F">약식</span></h2>
+              <p style="margin: 0; font-size: 15px; line-height: 1.7; color: #6B5149">업무용 승용차에 쓴 비용 중 올해 비용으로 인정되는 금액을 계산합니다.</p>
+            </div>
+            <fieldset style="margin: 0; padding: 0; border: 0; display: flex; flex-direction: column; gap: 12px">
+              <legend style="padding: 0 0 12px; font-size: 16px; font-weight: 500">사업자 구분</legend>
+              <div style="display: flex; flex-wrap: wrap; gap: 8px">
+                <sc-for list="{{carOwners}}" as="c" hint-placeholder-count="2">
+                  <button type="button" onClick="{{c.pick}}" aria-pressed="{{c.pressed}}" style="min-height: 46px; padding: 0 18px; border-radius: 2px; cursor: pointer; font-family: 'Noto Sans KR', sans-serif; font-size: 15px; background: {{c.bg}}; color: {{c.fg}}; border: 1px solid {{c.bd}}">{{c.label}}</button>
+                </sc-for>
+              </div>
+            </fieldset>
+            <fieldset style="margin: 0; padding: 0; border: 0; display: flex; flex-direction: column; gap: 12px">
+              <legend style="padding: 0 0 12px; font-size: 16px; font-weight: 500">차량을 어떻게 이용하나요?</legend>
+              <div style="display: flex; flex-wrap: wrap; gap: 8px">
+                <sc-for list="{{carTypes}}" as="c" hint-placeholder-count="3">
+                  <button type="button" onClick="{{c.pick}}" aria-pressed="{{c.pressed}}" style="min-height: 46px; padding: 0 18px; border-radius: 2px; cursor: pointer; font-family: 'Noto Sans KR', sans-serif; font-size: 15px; background: {{c.bg}}; color: {{c.fg}}; border: 1px solid {{c.bd}}">{{c.label}}</button>
+                </sc-for>
+              </div>
+            </fieldset>
+            <div style="display: flex; flex-wrap: wrap; gap: 20px">
+              <label style="flex: 1 1 240px; display: flex; flex-direction: column; gap: 12px; font-size: 16px; font-weight: 500">{{carCostLabel}}
+                <span style="display: flex; align-items: center; height: 56px; border: 1px solid #F3D9CB; border-radius: 2px; padding: 0 18px; gap: 8px; background: #FFFFFF">
+                  <input type="number" min="0" step="100" value="{{carCost}}" onInput="{{setCarCost}}" style="flex: 1; min-width: 0; border: 0; outline: none; font-family: 'Noto Sans KR', sans-serif; font-size: 18px; color: #2B2B2B; text-align: right; background: transparent">
+                  <span style="font-size: 15px; color: #7E6054">만원</span>
+                </span>
+              </label>
+              <label style="flex: 1 1 240px; display: flex; flex-direction: column; gap: 12px; font-size: 16px; font-weight: 500">1년 유지비 (기름값 · 보험 · 수리 · 자동차세)
+                <span style="display: flex; align-items: center; height: 56px; border: 1px solid #F3D9CB; border-radius: 2px; padding: 0 18px; gap: 8px; background: #FFFFFF">
+                  <input type="number" min="0" step="50" value="{{carUpkeep}}" onInput="{{setCarUpkeep}}" style="flex: 1; min-width: 0; border: 0; outline: none; font-family: 'Noto Sans KR', sans-serif; font-size: 18px; color: #2B2B2B; text-align: right; background: transparent">
+                  <span style="font-size: 15px; color: #7E6054">만원</span>
+                </span>
+              </label>
+            </div>
+            <div style="display: flex; flex-wrap: wrap; align-items: flex-end; gap: 20px">
+              <label style="display: flex; align-items: center; gap: 10px; min-height: 44px; font-size: 16px; cursor: pointer">
+                <input type="checkbox" checked="{{carLog}}" onChange="{{toggleCarLog}}" style="width: 20px; height: 20px; margin: 0; accent-color: #2B2B2B">
+                운행기록부를 쓰고 있어요
+              </label>
+              <sc-if value="{{carLog}}" hint-placeholder-val="{{false}}">
+                <label style="display: flex; align-items: center; gap: 12px; font-size: 16px">업무 사용 비율
+                  <span style="display: flex; align-items: center; height: 48px; width: 140px; border: 1px solid #F3D9CB; border-radius: 2px; padding: 0 14px; gap: 6px; background: #FFFFFF; box-sizing: border-box">
+                    <input type="number" min="0" max="100" step="5" value="{{carRatio}}" onInput="{{setCarRatio}}" style="flex: 1; min-width: 0; border: 0; outline: none; font-family: 'Noto Sans KR', sans-serif; font-size: 17px; color: #2B2B2B; text-align: right; background: transparent">
+                    <span style="font-size: 15px; color: #7E6054">%</span>
+                  </span>
+                </label>
+              </sc-if>
+            </div>
+            <sc-if value="{{isCorp}}" hint-placeholder-val="{{true}}">
+              <label style="display: flex; align-items: center; gap: 10px; min-height: 44px; font-size: 16px; cursor: pointer">
+                <input type="checkbox" checked="{{carInsured}}" onChange="{{toggleCarInsured}}" style="width: 20px; height: 20px; margin: 0; accent-color: #2B2B2B">
+                업무전용 자동차보험에 가입했어요 <span style="font-size: 14px; color: #7E6054">(법인은 미가입 시 비용 인정 0원)</span>
+              </label>
+            </sc-if>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{isTransfer}}" hint-placeholder-val="{{false}}">
+          <div style="display: flex; flex-direction: column; gap: 36px">
+            <div style="display: flex; flex-direction: column; gap: 8px">
+              <h2 style="margin: 0; font-size: 26px; font-weight: 700">양도소득세 계산기 <span style="font-size: 15px; font-weight: 500; color: #B4552F">약식</span></h2>
+              <p style="margin: 0; font-size: 15px; line-height: 1.7; color: #6B5149">부동산을 팔 때의 양도소득세를 장기보유특별공제까지 넣어 계산합니다.</p>
+            </div>
+            <fieldset style="margin: 0; padding: 0; border: 0; display: flex; flex-direction: column; gap: 12px">
+              <legend style="padding: 0 0 12px; font-size: 16px; font-weight: 500">무엇을 파나요?</legend>
+              <div style="display: flex; flex-wrap: wrap; gap: 8px">
+                <sc-for list="{{trKinds}}" as="c" hint-placeholder-count="2">
+                  <button type="button" onClick="{{c.pick}}" aria-pressed="{{c.pressed}}" style="min-height: 46px; padding: 0 18px; border-radius: 2px; cursor: pointer; font-family: 'Noto Sans KR', sans-serif; font-size: 15px; background: {{c.bg}}; color: {{c.fg}}; border: 1px solid {{c.bd}}">{{c.label}}</button>
+                </sc-for>
+              </div>
+            </fieldset>
+            <div style="display: flex; flex-wrap: wrap; gap: 20px">
+              <label style="flex: 1 1 200px; display: flex; flex-direction: column; gap: 12px; font-size: 16px; font-weight: 500">판 금액
+                <span style="display: flex; align-items: center; height: 56px; border: 1px solid #F3D9CB; border-radius: 2px; padding: 0 18px; gap: 8px; background: #FFFFFF"><input type="number" min="0" step="1000" value="{{v.trSale}}" onInput="{{set.trSale}}" style="flex: 1; min-width: 0; border: 0; outline: none; font-family: 'Noto Sans KR', sans-serif; font-size: 18px; color: #2B2B2B; text-align: right; background: transparent"><span style="font-size: 15px; color: #7E6054">만원</span></span>
+              </label>
+              <label style="flex: 1 1 200px; display: flex; flex-direction: column; gap: 12px; font-size: 16px; font-weight: 500">산 금액
+                <span style="display: flex; align-items: center; height: 56px; border: 1px solid #F3D9CB; border-radius: 2px; padding: 0 18px; gap: 8px; background: #FFFFFF"><input type="number" min="0" step="1000" value="{{v.trBuy}}" onInput="{{set.trBuy}}" style="flex: 1; min-width: 0; border: 0; outline: none; font-family: 'Noto Sans KR', sans-serif; font-size: 18px; color: #2B2B2B; text-align: right; background: transparent"><span style="font-size: 15px; color: #7E6054">만원</span></span>
+              </label>
+              <label style="flex: 1 1 200px; display: flex; flex-direction: column; gap: 12px; font-size: 16px; font-weight: 500">필요경비 (취득세 · 중개수수료 등)
+                <span style="display: flex; align-items: center; height: 56px; border: 1px solid #F3D9CB; border-radius: 2px; padding: 0 18px; gap: 8px; background: #FFFFFF"><input type="number" min="0" step="100" value="{{v.trCost}}" onInput="{{set.trCost}}" style="flex: 1; min-width: 0; border: 0; outline: none; font-family: 'Noto Sans KR', sans-serif; font-size: 18px; color: #2B2B2B; text-align: right; background: transparent"><span style="font-size: 15px; color: #7E6054">만원</span></span>
+              </label>
+              <label style="flex: 1 1 200px; display: flex; flex-direction: column; gap: 12px; font-size: 16px; font-weight: 500">보유 기간
+                <span style="display: flex; align-items: center; height: 56px; border: 1px solid #F3D9CB; border-radius: 2px; padding: 0 18px; gap: 8px; background: #FFFFFF"><input type="number" min="0" step="1" value="{{v.trHold}}" onInput="{{set.trHold}}" style="flex: 1; min-width: 0; border: 0; outline: none; font-family: 'Noto Sans KR', sans-serif; font-size: 18px; color: #2B2B2B; text-align: right; background: transparent"><span style="font-size: 15px; color: #7E6054">년</span></span>
+              </label>
+            </div>
+            <sc-if value="{{isHouse}}" hint-placeholder-val="{{true}}">
+              <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 12px 24px">
+                <label style="display: flex; align-items: center; gap: 10px; min-height: 44px; font-size: 16px; cursor: pointer">
+                  <input type="checkbox" checked="{{v.trOne}}" onChange="{{set.trOne}}" style="width: 20px; height: 20px; margin: 0; accent-color: #2B2B2B">
+                  1세대 1주택이에요
+                </label>
+                <sc-if value="{{v.trOne}}" hint-placeholder-val="{{false}}">
+                  <label style="display: flex; align-items: center; gap: 12px; font-size: 16px">거주 기간
+                    <span style="display: flex; align-items: center; height: 48px; width: 130px; box-sizing: border-box; border: 1px solid #F3D9CB; border-radius: 2px; padding: 0 14px; gap: 6px; background: #FFFFFF"><input type="number" min="0" step="1" value="{{v.trLive}}" onInput="{{set.trLive}}" style="flex: 1; min-width: 0; border: 0; outline: none; font-family: 'Noto Sans KR', sans-serif; font-size: 17px; color: #2B2B2B; text-align: right; background: transparent"><span style="font-size: 15px; color: #7E6054">년</span></span>
+                  </label>
+                </sc-if>
+              </div>
+            </sc-if>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{isInherit}}" hint-placeholder-val="{{false}}">
+          <div style="display: flex; flex-direction: column; gap: 36px">
+            <div style="display: flex; flex-direction: column; gap: 8px">
+              <h2 style="margin: 0; font-size: 26px; font-weight: 700">상속세 계산기 <span style="font-size: 15px; font-weight: 500; color: #B4552F">약식</span></h2>
+              <p style="margin: 0; font-size: 15px; line-height: 1.7; color: #6B5149">남기신 재산과 가족 구성으로 대략적인 상속세를 계산합니다.</p>
+            </div>
+            <div style="display: flex; flex-wrap: wrap; gap: 20px">
+              <label style="flex: 1 1 200px; display: flex; flex-direction: column; gap: 12px; font-size: 16px; font-weight: 500">전체 재산
+                <span style="display: flex; align-items: center; height: 56px; border: 1px solid #F3D9CB; border-radius: 2px; padding: 0 18px; gap: 8px; background: #FFFFFF"><input type="number" min="0" step="1000" value="{{v.inAsset}}" onInput="{{set.inAsset}}" style="flex: 1; min-width: 0; border: 0; outline: none; font-family: 'Noto Sans KR', sans-serif; font-size: 18px; color: #2B2B2B; text-align: right; background: transparent"><span style="font-size: 15px; color: #7E6054">만원</span></span>
+              </label>
+              <label style="flex: 1 1 200px; display: flex; flex-direction: column; gap: 12px; font-size: 16px; font-weight: 500">그중 예금 · 주식 등 금융재산
+                <span style="display: flex; align-items: center; height: 56px; border: 1px solid #F3D9CB; border-radius: 2px; padding: 0 18px; gap: 8px; background: #FFFFFF"><input type="number" min="0" step="1000" value="{{v.inFin}}" onInput="{{set.inFin}}" style="flex: 1; min-width: 0; border: 0; outline: none; font-family: 'Noto Sans KR', sans-serif; font-size: 18px; color: #2B2B2B; text-align: right; background: transparent"><span style="font-size: 15px; color: #7E6054">만원</span></span>
+              </label>
+              <label style="flex: 1 1 200px; display: flex; flex-direction: column; gap: 12px; font-size: 16px; font-weight: 500">빚 · 장례비
+                <span style="display: flex; align-items: center; height: 56px; border: 1px solid #F3D9CB; border-radius: 2px; padding: 0 18px; gap: 8px; background: #FFFFFF"><input type="number" min="0" step="100" value="{{v.inDebt}}" onInput="{{set.inDebt}}" style="flex: 1; min-width: 0; border: 0; outline: none; font-family: 'Noto Sans KR', sans-serif; font-size: 18px; color: #2B2B2B; text-align: right; background: transparent"><span style="font-size: 15px; color: #7E6054">만원</span></span>
+              </label>
+              <label style="flex: 1 1 200px; display: flex; flex-direction: column; gap: 12px; font-size: 16px; font-weight: 500">자녀 수
+                <span style="display: flex; align-items: center; height: 56px; border: 1px solid #F3D9CB; border-radius: 2px; padding: 0 18px; gap: 8px; background: #FFFFFF"><input type="number" min="0" step="1" value="{{v.inKids}}" onInput="{{set.inKids}}" style="flex: 1; min-width: 0; border: 0; outline: none; font-family: 'Noto Sans KR', sans-serif; font-size: 18px; color: #2B2B2B; text-align: right; background: transparent"><span style="font-size: 15px; color: #7E6054">명</span></span>
+              </label>
+            </div>
+            <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 12px 24px">
+              <label style="display: flex; align-items: center; gap: 10px; min-height: 44px; font-size: 16px; cursor: pointer">
+                <input type="checkbox" checked="{{v.inSpouse}}" onChange="{{set.inSpouse}}" style="width: 20px; height: 20px; margin: 0; accent-color: #2B2B2B">
+                배우자가 계세요
+              </label>
+              <sc-if value="{{v.inSpouse}}" hint-placeholder-val="{{true}}">
+                <label style="display: flex; align-items: center; gap: 12px; font-size: 16px">배우자가 받는 금액
+                  <span style="display: flex; align-items: center; height: 48px; width: 200px; box-sizing: border-box; border: 1px solid #F3D9CB; border-radius: 2px; padding: 0 14px; gap: 6px; background: #FFFFFF"><input type="number" min="0" step="1000" value="{{v.inSpouseAmt}}" onInput="{{set.inSpouseAmt}}" style="flex: 1; min-width: 0; border: 0; outline: none; font-family: 'Noto Sans KR', sans-serif; font-size: 17px; color: #2B2B2B; text-align: right; background: transparent"><span style="font-size: 15px; color: #7E6054">만원</span></span>
+                </label>
+              </sc-if>
+            </div>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{isCorpCompare}}" hint-placeholder-val="{{false}}">
+          <div style="display: flex; flex-direction: column; gap: 36px">
+            <div style="display: flex; flex-direction: column; gap: 8px">
+              <h2 style="margin: 0; font-size: 26px; font-weight: 700">개인 vs 법인 세금 비교 <span style="font-size: 15px; font-weight: 500; color: #B4552F">약식</span></h2>
+              <p style="margin: 0; font-size: 15px; line-height: 1.7; color: #6B5149">같은 이익을 개인사업자로 낼 때와 법인으로 낼 때의 세금을 나란히 비교합니다.</p>
+            </div>
+            <label style="display: flex; flex-direction: column; gap: 12px; font-size: 16px; font-weight: 500; max-width: 420px">1년 이익 (매출 − 비용)
+              <span style="display: flex; align-items: center; height: 56px; border: 1px solid #F3D9CB; border-radius: 2px; padding: 0 18px; gap: 8px; background: #FFFFFF"><input type="number" min="0" step="1000" value="{{v.cpProfit}}" onInput="{{set.cpProfit}}" style="flex: 1; min-width: 0; border: 0; outline: none; font-family: 'Noto Sans KR', sans-serif; font-size: 18px; color: #2B2B2B; text-align: right; background: transparent"><span style="font-size: 15px; color: #7E6054">만원</span></span>
+            </label>
+          </div>
+        </sc-if>
+
+        <p style="margin: 0; padding: 20px 24px; background: #FEF1E9; font-size: 14px; line-height: 1.8; color: #6B5149">{{note}}</p>
+      </div>
+
+      <aside aria-label="계산 결과" style="flex: 1 1 320px; max-width: 400px; box-sizing: border-box; display: flex; flex-direction: column; gap: 4px; padding: 36px 32px; background: #2B2B2B; color: #FFFFFF">
+        <p style="margin: 0 0 12px; font-family: 'Inter', sans-serif; font-weight: 600; font-size: 13px; letter-spacing: 0.16em; color: #E8A184">RESULT</p>
+        <sc-for list="{{rows}}" as="row" hint-placeholder-count="4">
+          <div style="display: flex; justify-content: space-between; gap: 16px; padding: 12px 0; border-bottom: 1px solid rgba(255,255,255,0.12); font-size: 15px">
+            <span style="color: rgba(255,255,255,0.75)">{{row.k}}</span>
+            <span style="font-weight: 500">{{row.v}}</span>
+          </div>
+        </sc-for>
+        <p style="margin: 20px 0 0; font-size: 15px; color: rgba(255,255,255,0.75)">{{totalLabel}}</p>
+        <p style="margin: 0; font-size: 34px; font-weight: 700; color: #F0A27F">{{totalValue}}</p>
+        <a href="Contact.dc.html" style="margin-top: 24px; display: flex; justify-content: space-between; align-items: center; min-height: 54px; padding: 0 20px; background: #D97757; color: #FFFFFF; font-size: 16px; font-weight: 700; border-radius: 2px">정확한 계산 상담받기 <span aria-hidden="true">→</span></a>
+      </aside>
+    </section>
+
+    <dc-import name="Footer" hint-size="100%,330px"></dc-import>
+  </main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":2000}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = { tab: 'transfer', giftAmount: 10000, giftPrior: 0, rel: 'adult', giftMarriage: false, incomeBase: 5000, carOwner: 'corp', carType: 'buy', carCost: 6000, carUpkeep: 800, carLog: false, carRatio: 80, carInsured: true,
+      trKind: 'house', trSale: 90000, trBuy: 50000, trCost: 2000, trHold: 6, trOne: false, trLive: 4,
+      inAsset: 200000, inFin: 30000, inDebt: 3000, inKids: 2, inSpouse: true, inSpouseAmt: 70000,
+      cpProfit: 30000, pySalary: 300, pyInd: 0.7, pyBig: false };
+  }
+  num(e) {
+    const v = parseFloat(e && e.target ? e.target.value : e);
+    return isFinite(v) && v > 0 ? v : 0;
+  }
+  won(v) {
+    return Math.round(v).toLocaleString('ko-KR') + '원';
+  }
+  progressive(base, table) {
+    if (base <= 0) return 0;
+    for (const [limit, fixed, rate, floor] of table) {
+      if (base <= limit) return fixed + (base - floor) * rate;
+    }
+    return 0;
+  }
+  giftTax(base) {
+    // 상속세 및 증여세법 제26조 · 제56조 세율
+    return this.progressive(base, [
+      [1e8, 0, 0.10, 0],
+      [5e8, 1e7, 0.20, 1e8],
+      [1e9, 9e7, 0.30, 5e8],
+      [3e9, 2.4e8, 0.40, 1e9],
+      [Infinity, 1.04e9, 0.50, 3e9]
+    ]);
+  }
+  incomeTax(base) {
+    // 소득세법 제55조 제1항 세율
+    return this.progressive(base, [
+      [1.4e7, 0, 0.06, 0],
+      [5e7, 8.4e5, 0.15, 1.4e7],
+      [8.8e7, 6.24e6, 0.24, 5e7],
+      [1.5e8, 1.536e7, 0.35, 8.8e7],
+      [3e8, 3.706e7, 0.38, 1.5e8],
+      [5e8, 9.406e7, 0.40, 3e8],
+      [1e9, 1.7406e8, 0.42, 5e8],
+      [Infinity, 3.8406e8, 0.45, 1e9]
+    ]);
+  }
+  renderVals() {
+    const s = this.state;
+    const tabDefs = [['transfer', '양도소득세'], ['inherit', '상속세'], ['gift', '증여세'], ['corp', '개인 vs 법인'], ['payroll', '직원 인건비'], ['car', '자동차 비용처리']];
+    const tabs = tabDefs.map(([k, label]) => ({
+      label, pressed: s.tab === k ? 'true' : 'false',
+      weight: s.tab === k ? '700' : '400', color: s.tab === k ? '#2B2B2B' : '#7E6054',
+      shadow: s.tab === k ? 'inset 0 -2px 0 #D97757' : 'none',
+      pick: () => this.setState({ tab: k })
+    }));
+    const relDefs = [
+      ['spouse', '배우자', 6e8], ['adult', '부모 · 조부모 (성인)', 5e7], ['minor', '부모 · 조부모 (미성년)', 2e7],
+      ['child', '자녀 · 손자녀', 5e7], ['relative', '기타 친족', 1e7], ['other', '그 외', 0]
+    ];
+    const rels = relDefs.map(([k, label]) => {
+      const on = s.rel === k;
+      return { label, pressed: on ? 'true' : 'false', bg: on ? '#2B2B2B' : '#FFFFFF', fg: on ? '#FFFFFF' : '#6B5149', bd: on ? '#2B2B2B' : '#F3D9CB', pick: () => this.setState({ rel: k }) };
+    });
+    const showMarriage = s.rel === 'adult' || s.rel === 'minor';
+
+    let rows = [], totalLabel = '', totalValue = '', note = '본 계산 결과는 입력하신 내용을 바탕으로 약식 계산한 금액이며, 상담 시 추가로 확인되는 정보에 따라 실제 납부할 세액은 달라질 수 있습니다. 해당 계산기를 근거로 한 신고 · 납부에 대해 당사는 책임지지 않으며, 정확한 세액과 절세 방안은 상담을 통해 도와드리겠습니다.';
+    if (s.tab === 'gift') {
+      const amount = s.giftAmount * 1e4, prior = s.giftPrior * 1e4;
+      const limit = relDefs.find((r) => r[0] === s.rel)[2];
+      const total = amount + prior;
+      const basicDed = Math.min(limit, total);
+      // 혼인 · 출산 공제(제53조의2)는 이번에 받는 금액 중 남은 과세가액 범위에서 최대 1억
+      const marriage = showMarriage && s.giftMarriage ? Math.min(1e8, amount, total - basicDed) : 0;
+      const deduction = basicDed + marriage;
+      let base = Math.max(0, total - deduction);
+      if (base < 5e5) base = 0; // 제55조 제2항 과세최저한
+      const priorBase = Math.max(0, prior - Math.min(limit, prior));
+      const taxTotal = this.giftTax(base);
+      // 제58조 납부세액공제: 종전 증여분 산출세액, 한도 = 산출세액 × (종전분 과세표준 ÷ 합산 과세표준)
+      const priorTaxRaw = priorBase < 5e5 ? 0 : this.giftTax(priorBase);
+      const priorTax = base > 0 ? Math.min(priorTaxRaw, taxTotal * priorBase / base) : 0;
+      const calc = Math.max(0, taxTotal - priorTax);
+      const credit = calc * 0.03;
+      rows = [
+        { k: '증여재산 (10년 합산)', v: this.won(total) },
+        { k: '증여재산공제', v: '− ' + this.won(deduction) },
+        { k: '과세표준', v: this.won(base) },
+        { k: '산출세액', v: this.won(calc) },
+        { k: '신고세액공제 (3%)', v: '− ' + this.won(credit) }
+      ];
+      totalLabel = '예상 증여세';
+      totalValue = this.won(calc - credit);
+    } else if (s.tab === 'payroll') {
+      // 2026년 요율: 국민연금법 부칙(법률 제20903호) 제4조 4.75% · 국민건강보험법 시행령 제44조 7.19% ·
+      // 노인장기요양보험법 시행령 제4조 0.9448% · 고용보험료징수법 시행령 제12조(실업급여 1.8%, 고안직능 0.25~0.45%)
+      const pay = s.pySalary * 1e4;
+      const cut10 = (x) => Math.floor((x + 1e-6) / 10) * 10; // 10원 미만 버림 (부동소수 오차 보정)
+      // 기준소득월액 하한 41만 · 상한 659만 원: 보건복지부 고시 제2026-31호 (2026.7~2027.6 적용)
+      const pensionBase = Math.min(6.59e6, Math.max(4.1e5, pay));
+      const pension = cut10(pensionBase * 0.0475);
+      const health = cut10(pay * 0.0719 / 2);
+      const care = cut10(pay * 0.009448 / 2);
+      const empWorker = cut10(pay * 0.009);
+      const empCompany = cut10(pay * (0.009 + (s.pyBig ? 0.0045 : 0.0025)));
+      const ind = cut10(pay * (s.pyInd / 100));
+      const companyIns = pension + health + care + empCompany + ind;
+      const workerIns = pension + health + care + empWorker;
+      rows = [
+        { k: '국민연금 (회사 · 직원 각 4.75%)', v: this.won(pension) + ' × 2' },
+        { k: '건강보험 (각 3.595%)', v: this.won(health) + ' × 2' },
+        { k: '장기요양 (각 0.4724%)', v: this.won(care) + ' × 2' },
+        { k: '고용보험 (회사 / 직원)', v: this.won(empCompany) + ' / ' + this.won(empWorker) },
+        { k: '산재보험 (회사만)', v: this.won(ind) },
+        { k: '회사 부담 4대보험 합계', v: this.won(companyIns) },
+        { k: '직원 공제 후 금액 (소득세 별도)', v: this.won(pay - workerIns) }
+      ];
+      totalLabel = '회사가 매달 쓰는 인건비';
+      totalValue = this.won(pay + companyIns);
+    } else if (s.tab === 'transfer') {
+      // 소득세법 제95조(장기보유특별공제) · 제103조(기본공제 250만원) · 제104조(세율)
+      const sale = s.trSale * 1e4, buy = s.trBuy * 1e4, cost = s.trCost * 1e4;
+      const hold = Math.floor(s.trHold), live = Math.min(Math.floor(s.trLive), Math.floor(s.trHold));
+      const isHouse = s.trKind === 'house';
+      const gain = Math.max(0, sale - buy - cost);
+      const one = isHouse && s.trOne && hold >= 2;
+      let taxableGain = gain, ltRate = 0, exempt = false;
+      const table1 = hold >= 3 ? Math.min(0.3, 0.02 * hold) : 0; // 제95조 제2항 표 1
+      if (one) {
+        if (sale <= 1.2e9) { exempt = true; taxableGain = 0; }
+        else {
+          taxableGain = gain * (sale - 1.2e9) / sale; // 시행령 제160조 고가주택
+          // 표 2는 보유기간 중 2년 이상 거주한 1세대 1주택만 (시행령 제159조의4). 아니면 표 1
+          if (hold >= 3 && live >= 2) ltRate = Math.min(0.4, 0.04 * hold) + (live === 2 ? 0.08 : Math.min(0.4, 0.04 * live));
+          else ltRate = table1;
+        }
+      } else {
+        ltRate = table1;
+      }
+      const lt = taxableGain * ltRate;
+      const base = Math.max(0, taxableGain - lt - 2.5e6);
+      // 제104조 제1항: 단기 보유 세율과 기본세율 중 세액이 큰 것
+      const basicTax = this.incomeTax(base);
+      let tax;
+      if (hold < 1) tax = Math.max(base * (isHouse ? 0.7 : 0.5), basicTax);
+      else if (hold < 2) tax = Math.max(base * (isHouse ? 0.6 : 0.4), basicTax);
+      else tax = basicTax;
+      const local = tax * 0.1;
+      rows = [
+        { k: '양도차익', v: this.won(gain) },
+        { k: exempt ? '1세대 1주택 비과세' : '과세 대상 차익', v: exempt ? '12억 원 이하 · 비과세' : this.won(taxableGain) },
+        { k: '장기보유특별공제 (' + Math.round(ltRate * 100) + '%)', v: '− ' + this.won(lt) },
+        { k: '과세표준 (기본공제 250만 원 뺌)', v: this.won(base) },
+        { k: '산출세액', v: this.won(tax) },
+        { k: '지방소득세 (10%)', v: this.won(local) }
+      ];
+      totalLabel = '예상 양도소득세 (지방소득세 포함)';
+      totalValue = this.won(tax + local);
+    } else if (s.tab === 'inherit') {
+      // 상속세 및 증여세법 제19조 · 제21조 · 제22조 · 제26조 · 제69조
+      const asset = s.inAsset * 1e4, fin = s.inFin * 1e4, debt = s.inDebt * 1e4, kids = Math.max(0, Math.floor(s.inKids));
+      const taxable = Math.max(0, asset - debt);
+      // 제21조: 기초공제 2억 + 자녀공제(1인 5천만, 제20조)와 일괄공제 5억 중 큰 금액. 배우자 단독상속은 일괄공제 불가
+      const lump = s.inSpouse && kids === 0 ? 2e8 : Math.max(5e8, 2e8 + kids * 5e7);
+      let spouseDed = 0;
+      if (s.inSpouse) {
+        const legalShare = 1.5 / (1.5 + kids);
+        const limit = Math.min(taxable * legalShare, 3e9);
+        spouseDed = Math.max(5e8, Math.min(s.inSpouseAmt * 1e4, limit));
+      }
+      const finDed = fin <= 2e7 ? fin : Math.min(2e8, Math.max(fin * 0.2, 2e7));
+      const totalDed = lump + spouseDed + finDed;
+      let base = Math.max(0, taxable - totalDed);
+      if (base < 5e5) base = 0; // 제25조 제2항 과세최저한
+      const calc = this.giftTax(base);
+      const credit = calc * 0.03;
+      rows = [
+        { k: '과세가액 (재산 − 빚 · 장례비)', v: this.won(taxable) },
+        { k: s.inSpouse && kids === 0 ? '기초공제' : '일괄공제', v: '− ' + this.won(lump) },
+        { k: '배우자 상속공제', v: '− ' + this.won(spouseDed) },
+        { k: '금융재산 상속공제', v: '− ' + this.won(finDed) },
+        { k: '과세표준', v: this.won(base) },
+        { k: '산출세액', v: this.won(calc) },
+        { k: '신고세액공제 (3%)', v: '− ' + this.won(credit) }
+      ];
+      totalLabel = '예상 상속세';
+      totalValue = this.won(calc - credit);
+    } else if (s.tab === 'corp') {
+      // 소득세법 제55조 · 법인세법 제55조(2026년 귀속 10 · 20 · 22 · 25%)
+      const profit = s.cpProfit * 1e4;
+      const personal = this.incomeTax(profit) * 1.1;
+      const corp = this.progressive(profit, [
+        [2e8, 0, 0.10, 0],
+        [2e10, 2e7, 0.20, 2e8],
+        [3e11, 3.98e9, 0.22, 2e10],
+        [Infinity, 6.558e10, 0.25, 3e11]
+      ]) * 1.1;
+      const diff = personal - corp;
+      rows = [
+        { k: '개인사업자 (종합소득세 + 지방세)', v: this.won(personal) },
+        { k: '법인 (법인세 + 지방세)', v: this.won(corp) },
+        { k: '개인 실효세율', v: profit > 0 ? (personal / profit * 100).toFixed(1) + '%' : '0%' },
+        { k: '법인 실효세율', v: profit > 0 ? (corp / profit * 100).toFixed(1) + '%' : '0%' }
+      ];
+      totalLabel = diff >= 0 ? '법인일 때 줄어드는 세금' : '개인일 때 줄어드는 세금';
+      totalValue = this.won(Math.abs(diff));
+    } else {
+      // 법인세법 제27조의2 · 시행령 제50조의2 (개인 복식부기의무자는 소득세법 제33조의2로 같은 구조)
+      const cost = s.carCost * 1e4, upkeep = s.carUpkeep * 1e4;
+      // 감가상각비 상당액(시행규칙 제27조의2 제6항): 렌트는 임차료의 70%, 리스는 수선유지비 7%를 뺀 93%로 계산
+      const depLike = s.carType === 'buy' ? cost / 5 : (s.carType === 'rent' ? cost * 0.7 : cost * 0.93);
+      const total = (s.carType === 'buy' ? cost / 5 : cost) + upkeep;
+      let ratio = s.carLog ? Math.min(100, s.carRatio) / 100 : (total <= 1.5e7 ? 1 : 1.5e7 / total);
+      if (s.carOwner === 'corp' && !s.carInsured) ratio = 0;
+      const business = total * ratio;
+      const excess = Math.max(0, depLike * ratio - 8e6);
+      const allowed = Math.max(0, business - excess);
+      rows = [
+        { k: '1년 차량 관련 비용', v: this.won(total) },
+        { k: '업무 사용 비율', v: (ratio * 100).toFixed(1) + '%' },
+        { k: '업무 사용 금액', v: this.won(business) },
+        { k: '감가상각 한도 초과 (다음 해로)', v: '− ' + this.won(excess) },
+        { k: '비용 인정 안 되는 금액', v: this.won(total - business) }
+      ];
+      totalLabel = '올해 비용으로 인정되는 금액';
+      totalValue = this.won(allowed);
+    }
+
+    const pickChip = (on) => ({ pressed: on ? 'true' : 'false', bg: on ? '#2B2B2B' : '#FFFFFF', fg: on ? '#FFFFFF' : '#6B5149', bd: on ? '#2B2B2B' : '#F3D9CB' });
+    const carOwners = [['corp', '법인'], ['person', '개인사업자 (복식부기)']].map(([k, label]) => ({ label, ...pickChip(s.carOwner === k), pick: () => this.setState({ carOwner: k }) }));
+    const carTypes = [['buy', '구매'], ['lease', '리스'], ['rent', '장기렌트']].map(([k, label]) => ({ label, ...pickChip(s.carType === k), pick: () => this.setState({ carType: k }) }));
+    const carCostLabel = s.carType === 'buy' ? '차량 구입 가격' : (s.carType === 'lease' ? '1년 리스료' : '1년 렌트료');
+    const trKinds = [['house', '주택'], ['land', '토지 · 상가 등']].map(([k, label]) => ({ label, ...pickChip(s.trKind === k), pick: () => this.setState({ trKind: k }) }));
+    const numKeys = ['trSale', 'trBuy', 'trCost', 'trHold', 'trLive', 'inAsset', 'inFin', 'inDebt', 'inKids', 'inSpouseAmt', 'cpProfit', 'pySalary', 'pyInd'];
+    const set = {};
+    numKeys.forEach((k) => { set[k] = (e) => this.setState({ [k]: this.num(e) }); });
+    set.trOne = () => this.setState({ trOne: !s.trOne });
+    set.inSpouse = () => this.setState({ inSpouse: !s.inSpouse });
+    set.pyBig = () => this.setState({ pyBig: !s.pyBig });
+    const v = {};
+    numKeys.concat(['trOne', 'inSpouse', 'pyBig']).forEach((k) => { v[k] = s[k]; });
+
+    return {
+      tabs, rels, showMarriage, rows, totalLabel, totalValue, note,
+      isGift: s.tab === 'gift', isPayroll: s.tab === 'payroll', isCar: s.tab === 'car',
+      isTransfer: s.tab === 'transfer', isInherit: s.tab === 'inherit', isCorpCompare: s.tab === 'corp',
+      isHouse: s.trKind === 'house', trKinds, v, set,
+      giftAmount: s.giftAmount, giftPrior: s.giftPrior, giftMarriage: s.giftMarriage,
+      incomeBase: s.incomeBase,
+      carOwners, carTypes, carCostLabel, isCorp: s.carOwner === 'corp',
+      carCost: s.carCost, carUpkeep: s.carUpkeep, carLog: s.carLog, carRatio: s.carRatio, carInsured: s.carInsured,
+      setGiftAmount: (e) => this.setState({ giftAmount: this.num(e) }),
+      setGiftPrior: (e) => this.setState({ giftPrior: this.num(e) }),
+      toggleMarriage: () => this.setState({ giftMarriage: !s.giftMarriage }),
+      setIncomeBase: (e) => this.setState({ incomeBase: this.num(e) }),
+      setCarCost: (e) => this.setState({ carCost: this.num(e) }),
+      setCarUpkeep: (e) => this.setState({ carUpkeep: this.num(e) }),
+      setCarRatio: (e) => this.setState({ carRatio: this.num(e) }),
+      toggleCarLog: () => this.setState({ carLog: !s.carLog }),
+      toggleCarInsured: () => this.setState({ carInsured: !s.carInsured })
+    };
+  }
+}
+</script>
+</body>
+</html>

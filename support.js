@@ -191,6 +191,7 @@
     if ('checked' in p) target.checked = p.checked;
     if ('selected' in p) target.selected = p.selected;
     if ('disabled' in p) target.disabled = p.disabled;
+    if (target.tagName === 'VIDEO' && target.hasAttribute('muted')) { target.muted = true; target.defaultMuted = true; target.playsInline = true; }
   }
 
   /* ---------- 다시 그릴 때 바뀐 부분만 고치기 ---------- */
@@ -270,6 +271,11 @@
     var defs = {};
     loadAll(def, defs).then(function () {
       mount(def, {}, host, { defs: defs });
+      Array.prototype.forEach.call(document.querySelectorAll('video[autoplay]'), function (v) {
+        v.muted = true;
+        var p = v.play();
+        if (p && p.catch) p.catch(function () {});
+      });
       if (location.hash) {
         var t = document.getElementById(decodeURIComponent(location.hash.slice(1)));
         if (t) t.scrollIntoView();
@@ -279,6 +285,7 @@
 
   var css = document.createElement('style');
   css.textContent = 'x-dc{display:none}html{scroll-behavior:smooth}';
+  document.documentElement.classList.add('dc-live');
   (document.head || document.documentElement).appendChild(css);
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot);
   else boot();
